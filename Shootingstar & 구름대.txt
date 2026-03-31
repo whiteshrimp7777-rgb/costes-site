@@ -1,0 +1,574 @@
+//@version=5
+indicator("Shooting Star", "Shooting Star", overlay = true)
+
+//////////
+useCustomTimeframeInput = false
+lowerTimeframeInput = "1"
+mult= input.int(7, title = 'Delta Multiplier')
+main_logic_short = 'MFI'
+
+
+
+//Disparity//
+
+disparity_len = 50 //input.int(80, title = 'Length', group = 'Disparity')
+signal_len = 30 //input.int(10, title = 'Smoothing Length', group = 'Disparity')
+ma_type = 'VIDYA' //input.string(defval = 'VIDYA', title = 'MA TYPE', options = ['SMA', 'EMA', 'HMA', 'JMA', 'VIDYA'], group = 'Disparity')
+disparity_source = hlcc4 //input.source(hlcc4, group = 'Disparity')
+
+volume_limit_mult = input.float(2.0, title = 'Volume Limit Multiplier', group = 'Volume Limit')
+volume_limit_length = 200 //input.int(200, title = 'Volume Limit', group = 'Volume Limit')
+
+trend_on = input.bool(defval = true, title = 'Trend On')
+
+cnt_limt = 5  //
+
+len = 200
+
+vol_limit_on = true
+
+
+long_limit = input.int(defval = 2, title = 'Long Condition', minval = 1, maxval = 4)
+short_limit = input.int(defval = 2, title = 'short Condition', minval = 1, maxval = 4)
+//Var//
+
+
+
+var int rsi_short_state = 0
+var int rsi_long_state = 0
+
+var int mfi_long_state = 0
+var int mfi_short_state = 0
+var float mfi_higher = 0.0
+var float mfi_lower = 0.0
+
+var int rsi_bull_cnt = 0
+var int rsi_bear_cnt = 0
+
+var int mfi_bull_cnt = 0
+var int mfi_bear_cnt = 0
+
+
+var bool bull = false
+var bool bear = false
+
+
+volume_limit_ma = ta.ema(volume, volume_limit_length)*volume_limit_mult
+
+//Functions//
+
+
+upAndDownVolume() =>
+    posVol = 0.0
+    negVol = 0.0
+    
+    switch
+        close >  open     => posVol += volume
+        close <  open     => negVol -= volume
+        close >= close[1] => posVol += volume
+        close <  close[1] => negVol -= volume
+
+    [posVol, negVol]
+
+lowerTimeframe = switch
+    useCustomTimeframeInput => lowerTimeframeInput
+    timeframe.isseconds     => "1S"
+    timeframe.isintraday    => "1"
+    timeframe.isdaily       => "5"
+    => "60"
+
+[upVolumeArray, downVolumeArray] = request.security_lower_tf(syminfo.tickerid, lowerTimeframe, upAndDownVolume())
+
+upVolume = array.sum(upVolumeArray)
+downVolume = array.sum(downVolumeArray)
+delta = upVolume + downVolume
+
+var cumVol = 0.
+cumVol += nz(volume)
+if barstate.islast and cumVol == 0
+    runtime.error("The data vendor doesn't provide volume data for this symbol.")
+
+ma_upVolume = ta.sma(upVolume, len)
+
+ma_downVolume = ta.sma(downVolume, len)
+
+
+ma_delta = ta.ema(math.abs(delta), len)
+
+
+delta_mult_pos =  math.abs(delta/ma_delta) 
+mycolor = (delta_mult_pos > 1 and delta_mult_pos < mult*1.2) ? color.orange : delta_mult_pos >= mult*1.2 and delta_mult_pos < mult*2 ? color.green : delta_mult_pos >= mult*2 and delta_mult_pos < mult*3 ? color.red : delta_mult_pos >= mult*3 and delta_mult_pos < mult*4 ? color.purple : color.rgb(97, 71, 71)
+
+k_length = 20
+k_mult = 3
+k_src = close
+k_exp = true
+k_BandsStyle ="Average True Range"
+k_atrlength = 10
+esma(source, length)=>
+	s = ta.sma(source, length)
+	e = ta.ema(source, length)
+	k_exp ? e : s
+ma = esma(k_src, k_length)
+rangema = k_BandsStyle == "True Range" ? ta.tr(true) : k_BandsStyle == "Average True Range" ? ta.atr(k_atrlength) : ta.rma(high - low, k_length)
+upper = ma + rangema * k_mult
+lower = ma - rangema * k_mult
+
+
+
+
+
+keltner_high = high > upper
+keltner_low = low < lower
+
+//Volume OSC//
+
+shortlen = 20 // input.int(20)
+longlen = 40 //input.int(40)
+short = ta.ema(volume, shortlen)
+long = ta.ema(volume, longlen)
+osc = 100 * (short - long) / long
+
+th = 30 //input.int(30)
+high_volume_osc = osc > th
+
+//debug = input.bool(defval = false, title = 'DEBUG')
+
+
+//
+
+buy_large = (ma_delta*mult < math.abs(delta))and high>upper and delta >0
+sell_large = (ma_delta*mult < math.abs(delta))  and low < lower and delta <0
+
+var int buy_state = 0
+var int sell_state = 0
+
+var int buy_cnt = 0
+var int sell_cnt = 0
+
+if buy_large and not (buy_large[1] and buy_large[2])
+    sell_state := -1
+    sell_cnt := 1
+if sell_large and not (sell_large[1] and sell_large[2])
+    buy_state := 1
+    buy_cnt := 1
+
+if sell_state == -1
+    sell_cnt := sell_cnt + 1
+if buy_state == 1
+    buy_cnt := buy_cnt + 1
+
+if buy_cnt == cnt_limt+1
+    buy_state := 0
+    buy_cnt := 0
+if sell_cnt == cnt_limt+1
+    sell_state := 0
+    sell_cnt := 0
+
+buy_larger = (ma_delta*mult*2 < math.abs(delta)) and delta>0
+sell_larger = (ma_delta*mult*2 < math.abs(delta)) and delta<0
+
+//RSI DIVERGENCE//
+
+lb = 15
+rb = 2
+bear_src = high
+bull_src = low
+lvl = 5
+
+// get indicator
+rsi = ta.rsi(close, 14)
+// pivot
+bar = bar_index[rb]
+ph = ta.pivothigh(bear_src, lb, rb)
+pl = ta.pivotlow(bull_src, lb, rb)
+
+// div function
+hi0 = ta.valuewhen(ph, bear_src[rb], 0), hi1 = ta.valuewhen(ph, bear_src[rb], 1)
+hi2 = ta.valuewhen(ph, bear_src[rb], 2), hi3 = ta.valuewhen(ph, bear_src[rb], 3)
+hi4 = ta.valuewhen(ph, bear_src[rb], 4), hi5 = ta.valuewhen(ph, bear_src[rb], 5)
+
+lo0 = ta.valuewhen(pl, bull_src[rb], 0), lo1 = ta.valuewhen(pl, bull_src[rb], 1)
+lo2 = ta.valuewhen(pl, bull_src[rb], 2), lo3 = ta.valuewhen(pl, bull_src[rb], 3)
+lo4 = ta.valuewhen(pl, bull_src[rb], 4), lo5 = ta.valuewhen(pl, bull_src[rb], 5)
+
+dh0 = ta.valuewhen(ph, rsi[rb], 0), dh1 = ta.valuewhen(ph, rsi[rb], 1)
+dh2 = ta.valuewhen(ph, rsi[rb], 2), dh3 = ta.valuewhen(ph, rsi[rb], 3)
+dh4 = ta.valuewhen(ph, rsi[rb], 4), dh5 = ta.valuewhen(ph, rsi[rb], 5)
+
+dl0 = ta.valuewhen(pl, rsi[rb], 0), dl1 = ta.valuewhen(pl, rsi[rb], 1)
+dl2 = ta.valuewhen(pl, rsi[rb], 2), dl3 = ta.valuewhen(pl, rsi[rb], 3)
+dl4 = ta.valuewhen(pl, rsi[rb], 4), dl5 = ta.valuewhen(pl, rsi[rb], 5)
+
+bear_div1 = hi0 > hi1
+     and dh1 > dh0
+bear_div2 = hi0 > hi1 and hi0 > hi2
+     and dh2 > dh0 and dh2 > dh1 and lvl >= 2
+bear_div3 = hi0 > hi1 and hi0 > hi2 and hi0 > hi3
+     and dh3>dh0 and dh3>dh1 and dh3>dh2 and lvl >= 3
+bear_div4 = hi0 > hi1 and hi0 > hi2 and hi0 > hi3 and hi0 > hi4
+     and dh4 > dh0 and dh4 > dh1 and dh4 > dh2 and dh4 > dh3 and lvl >= 4
+bear_div5 = hi0>hi1 and hi0>hi2 and hi0>hi3 and hi0 > hi4 and hi0 > hi5
+     and dh5 > dh0 and dh5 > dh1 and dh5 > dh2 and dh5 > dh3 and dh5 > dh4 and lvl >= 5
+     
+bull_div1 = lo0 < lo1
+     and dl1 < dl0
+bull_div2 = lo0<lo1 and lo0<lo2
+     and dl2 < dl0 and dl2 < dl1 and lvl >= 2
+bull_div3 = lo0 < lo1 and lo0 < lo2 and lo0 < lo3
+     and dl3 < dl0 and dl3 < dl1 and dl3 < dl2 and lvl >= 3
+bull_div4 = lo0 < lo1 and lo0 < lo2 and lo0 < lo3 and lo0 < lo4
+     and dl4 < dl0 and dl4 < dl1 and dl4 < dl2 and dl4 < dl3 and lvl >= 4
+bull_div5 = lo0 < lo1 and lo0 < lo2 and lo0 < lo3 and lo0 < lo4 and lo0 < lo5
+      and dl5 < dl0 and dl5 < dl1 and dl5 < dl2 and dl5 < dl3 and dl5 < dl4 and lvl >= 5
+
+_bear1 = bear_div1 and not bear_div1[1], _bear2 = bear_div2 and not bear_div2[1]
+_bear3 = bear_div3 and not bear_div3[1], _bear4 = bear_div4 and not bear_div4[1]
+_bear5 = bear_div5 and not bear_div5[1]
+
+_bull1 = bull_div1 and not bull_div1[1], _bull2 = bull_div2 and not bull_div2[1]
+_bull3 = bull_div3 and not bull_div3[1], _bull4 = bull_div4 and not bull_div4[1]
+_bull5 = bull_div5 and not bull_div5[1]
+
+
+
+div_bear = _bear1 or _bear2 or _bear3 or _bear4 or _bear5 and rsi > 60
+
+div_bull = _bull1 or _bull2 or _bull3 or _bull4 or _bull5 and rsi < 30
+
+
+
+if div_bear
+    rsi_short_state := -1
+    rsi_bear_cnt := 1
+
+if rsi_short_state == -1
+    rsi_bear_cnt := rsi_bear_cnt + 1
+
+if rsi_bear_cnt == cnt_limt
+    rsi_bear_cnt := 0
+    rsi_short_state := 0
+
+
+
+if div_bull
+    rsi_long_state := 1
+
+if rsi_long_state == 1
+    rsi_bull_cnt := rsi_bull_cnt + 1
+
+if rsi_bull_cnt == cnt_limt
+    rsi_bull_cnt := 0
+    rsi_long_state := 0
+
+
+
+///Region : MFI//
+
+
+source = hlc3
+length = 14
+// MFI
+mf = ta.mfi(hlc3, length)
+
+max_mfi = math.max(mf, 5)
+min_mfi = math.min(mf, 5)
+
+oversold = 17
+overbought = 83
+
+mfi_bull = ta.crossover(mf, oversold)
+mfi_bear = ta.crossunder(mf, overbought)
+
+
+
+if mfi_bull and mfi_long_state == 0 and volume_limit_ma < volume
+    mfi_long_state := 1
+    mfi_bull_cnt := 0
+
+if mfi_long_state == 1 and mfi_bull
+    mfi_bull_cnt := 1
+
+if mfi_long_state == 1 and not mfi_bull
+    mfi_bull_cnt := mfi_bull_cnt +1
+
+if mfi_bull_cnt == cnt_limt +1
+    mfi_long_state := 0
+    mfi_bull_cnt := 0
+
+//
+
+if mfi_bear and mfi_short_state == 0  and volume_limit_ma < volume
+    mfi_short_state := -1
+    mfi_bear_cnt := 0
+
+if mfi_short_state == -1 and not mfi_bear
+    mfi_bear_cnt := mfi_bear_cnt + 1
+
+if mfi_short_state == -1 and mfi_bear
+    mfi_bear_cnt := 1
+
+if mfi_bear_cnt == cnt_limt +1
+    mfi_short_state := 0
+    mfi_bear_cnt := 0
+
+
+
+//////////
+var new_bull = false
+var new_bear = false
+
+
+if (rsi_long_state == 1 and buy_state == 1) or rsi_long_state == 1 and (mfi_long_state == 1)
+    buy_state := 0
+    rsi_long_state := 0
+    mfi_long_state := 0
+    new_bull := true
+else
+    new_bull := false
+
+
+rsi_ma = ta.sma(rsi, 14)
+
+
+//SPEC RSI Signal//
+
+spec_rsi_ma_length = 10
+source_spec_rsi = ohlc4 //input.source(ohlc4)
+spec_rsi = ta.rsi(source_spec_rsi, 10)
+sepc_rsi_ma = ta.ema(spec_rsi, spec_rsi_ma_length)
+
+//SFP//
+l_len = 800
+
+last_high = ta.highest(l_len)
+last_low = ta.lowest(l_len)
+ignored_high = ta.highest(10)
+ignored_low = ta.lowest(10)
+
+
+//SIGNALS//
+
+spec_rsi_bull = ta.crossover(spec_rsi, sepc_rsi_ma) and spec_rsi < 35 
+spec_rsi_bear = ta.crossunder(spec_rsi, sepc_rsi_ma) and spec_rsi > 65
+
+
+mfi_and_rsi_bull = (mfi_bull) and div_bull and rsi < 35 and not ta.falling(rsi_ma, 3)
+mfi_and_rsi_bear = (mfi_bear) and div_bear and rsi > 65 and not ta.rising(rsi_ma, 3)
+
+delta_bull = sell_large and keltner_low
+delta_bear = buy_large and keltner_high
+
+SFP_low_confirm = low < last_low[1]  and close > last_low[1] and last_low[1] != ignored_low[1]
+SFP_high_confirm = high > last_high[1]  and close < last_high[1] and last_high[1] != ignored_high[1]
+
+//Disparity//
+
+
+
+
+//Functions//
+
+// Variable Index Dynamic Average (VIDYA)
+jma_power = 2
+jma_phase = 100
+cmo_len = 9
+
+FuncVIDYA(_src, smoothPeriod, cmo_len)=>
+    vidya_price = _src
+    vidya_pricc = close
+    sumUp = 0., sumDo = 0.
+    for k = 1 to cmo_len 
+        diff = nz(vidya_pricc[k]) -  nz(vidya_pricc[k-1])
+        if (diff > 0)
+            sumUp += diff
+        else  
+            sumDo -= diff
+    vidya_value = 0.
+    vidya_value := nz(vidya_value[1]) +   
+         ((((sumUp + sumDo) != 0) ? math.abs((sumUp-sumDo)/(sumUp+sumDo)) : 1) *  
+         2.00 / (1.00 + math.max(smoothPeriod, 1))) *  
+         (vidya_price - nz(vidya_value[1]))
+    vidya_value
+
+
+calc_jma(_src, _length) =>
+    phaseRatio = jma_phase < -100 ? 0.5 : jma_phase > 100 ? 2.5 : jma_phase / 100 + 1.5
+    
+    beta = 0.45 * (_length - 1) / (0.45 * (_length - 1) + 2)
+    alpha1 = math.pow(beta, jma_power)
+    
+    e0 = 0.0,e0 := (1 - alpha1) * _src + alpha1 * nz(e0[1])
+    
+    e1 = 0.0,e1 := (_src - e0) * (1 - beta) + beta * nz(e1[1])
+    
+    jma = 0.0, e2 = 0.0,e2 := (e0 + phaseRatio * e1 - nz(jma[1])) * 
+       math.pow(1 - alpha1, 2) + math.pow(alpha1, 2) * nz(e2[1])
+    
+    jma := e2 + nz(jma[1])
+    jma
+
+for_disparity_ma = ta.sma(close, disparity_len)
+
+if ma_type == 'EMA'
+    for_disparity_ma := ta.ema(close, disparity_len)
+if ma_type == 'HMA'
+    for_disparity_ma := ta.hma(close, disparity_len)
+if ma_type == 'VIDYA'
+    for_disparity_ma := FuncVIDYA(close, disparity_len, 9)
+if ma_type == 'JMA'
+    for_disparity_ma := calc_jma(close, disparity_len)
+
+disparity = (disparity_source/for_disparity_ma)*100 - 100
+
+ma_disparity = calc_jma(disparity, signal_len)
+
+//Stratgey//
+
+any_bull = volume_limit_ma < volume and (mfi_and_rsi_bull or delta_bull)  //and (spec_rsi_bull or spec_rsi_bull[1] or spec_rsi_bull[3]) 
+any_bear = volume_limit_ma < volume  and (mfi_and_rsi_bear or delta_bear)// and (spec_rsi_bear or spec_rsi_bear[1]  or spec_rsi_bear[2])
+
+SFP_low_any = (SFP_low_confirm or SFP_low_confirm[1] or SFP_low_confirm[2] or SFP_low_confirm[3] or SFP_low_confirm[4])
+SFP_high_any = (SFP_high_confirm or SFP_high_confirm[1] or SFP_high_confirm[2] or SFP_high_confirm[3])
+
+spec_rsi_bull_state = spec_rsi_bull or spec_rsi_bull[1] or spec_rsi_bull[2] or spec_rsi_bull[3]
+spec_rsi_bear_state = spec_rsi_bear or spec_rsi_bear[1] or spec_rsi_bear[2]
+
+float bull_score = (delta_bull ? 2 : 0) + (mfi_bull ? 1 : 0) + (div_bull ? 1 : 0 ) + (spec_rsi_bull ? 1 : 0) + (SFP_low_confirm ? 1 : 0) + (mfi_and_rsi_bull ? 1 : 0) + (new_bull ? 1 : 0)
+float bear_score = (delta_bear ? 2 : 0) + (mfi_bear ? 1 : 0) + (div_bear ? 1 : 0 ) + (spec_rsi_bear ? 1 : 0) + (SFP_high_confirm ? 1 : 0) + (mfi_and_rsi_bear ? 1 : 0 )
+
+
+long_1 = long_limit >= 2 ? false : (bull_score >= 1 and bull_score < 2) and volume_limit_ma < volume
+long_2 = long_limit >= 3 ? false : (bull_score >= 2 and bull_score<3) and volume_limit_ma < volume
+long_3 = long_limit >= 4 ? false : bull_score >= 3 and bull_score < 4 and volume_limit_ma < volume
+long_4 = bull_score >= 4 and volume_limit_ma < volume
+
+any_long = long_1 or long_2 or long_3 or long_4
+
+short_1 = short_limit >= 2? false : (bear_score >= 1 and bear_score < 2) and volume_limit_ma < volume
+short_2 = short_limit >= 3? false : bear_score >= 2 and bear_score<3 and volume_limit_ma < volume
+short_3 = short_limit >= 4? false : bear_score >= 3 and bear_score < 4 and volume_limit_ma < volume
+short_4 = bear_score >= 4 and volume_limit_ma < volume
+
+any_short = short_1 or short_2 or short_3 or short_4
+
+//Wating Logic
+
+var int long_wait = 0
+var int short_wait = 0
+var bool okay_to_long = true
+var bool okay_to_short = true
+
+bool newnew_bull = false
+bool newnew_bear = false
+
+disparity_rising = ta.rising(ma_disparity, 4)
+disparity_falling = ta.falling(ma_disparity, 4)
+
+if trend_on
+    if disparity_falling
+        okay_to_long := false
+        okay_to_short := true
+
+    if disparity_rising
+        okay_to_short := false
+        okay_to_long := true
+
+    if okay_to_long == false
+        long_wait := long_wait + (any_long ? 1 : 0)
+
+    if okay_to_short == false
+        short_wait := short_wait + (any_short ? 1 : 0)
+
+    if okay_to_long[1] == false and not disparity_falling
+        okay_to_long := true
+
+
+    if okay_to_short[1] == false and not disparity_rising
+        okay_to_short := true
+
+
+    if not disparity_falling
+        long_wait := 0
+
+    if not disparity_rising
+        short_wait := 0
+
+    if short_wait[1] >= 1 and okay_to_short
+        newnew_bear := true
+    if long_wait[1] >= 1 and okay_to_long
+        newnew_bull := true
+
+    if newnew_bear[1]==true
+        newnew_bear := false
+        short_wait := 0
+    if newnew_bull[1]==true
+        newnew_bull := false
+        long_wait := 0
+
+bgcolor(trend_on and long_wait >0 ? color.new(#69abd1, 85) : trend_on and short_wait > 0 ? color.new(#e0c873, 85) : na)
+//Plots//
+
+ 
+plotchar(((short_1 and not short_1[1] ) and not (short_4[1] or short_2[1] or short_3[1]) or (newnew_bear and short_wait[1] >= 1 and short_wait[1]<2)) and okay_to_short, char = "♢",location = location.abovebar, size =size.small, color=color.rgb(255, 242, 98))
+plotchar(((long_1 and not long_1[1] ) and not (long_4[1] or long_2[1] or long_3[1]) and okay_to_long or (newnew_bull and long_wait[1] >= 1 and long_wait[1]<2)), char = "♢", location = location.belowbar , size = size.small, color=color.rgb(62, 225, 223))
+
+plotchar(((short_2 and not short_2[1] )and not (short_4[1] or short_4[2] or short_3[1]) or (newnew_bear and short_wait[1] >= 2 and short_wait[1]<4)) and okay_to_short, char = "✧",location = location.abovebar, size = size.small, color=color.rgb(255, 242, 98))
+plotchar(((long_2 and not long_2[1] ) and not (long_4[1] or long_4[2] or long_3[1]) or (newnew_bull and long_wait[1] >= 2 and long_wait[1]<4)) and okay_to_long, char = "✧", location = location.belowbar , size = size.small, color=color.rgb(62, 225, 223))
+
+plotchar((((short_3 and not short_3[1])) and not (short_4[1] or short_4[2]) or (newnew_bear and short_wait[1] >= 4 and short_wait[1] < 10)) and okay_to_short, char = "✦",location = location.abovebar, size = size.small, color=color.rgb(255, 242, 98, 15))
+plotchar((((long_3 and not long_3[1] )) and not (long_4[1] or long_4[2]) or (newnew_bull and long_wait[1] >= 4 and long_wait[1] < 8)) and okay_to_long, char = "✦", location = location.belowbar ,size =size.small, color=color.rgb(65, 225, 223, 17))
+
+plotchar((((short_4 and not short_4[1]) ) or (newnew_bear and short_wait[1] >= 10)) and okay_to_short, char = "☄️",location = location.abovebar, size = size.small, color=color.rgb(255, 242, 98, 17))
+plotchar((((long_4 and not long_4[1]) )or (newnew_bull and long_wait[1] >= 10)) and okay_to_long , char = "🌟", location = location.belowbar , size = size.small, color=color.rgb(65, 225, 223, 17))
+
+
+//alerts//
+
+alertcondition(any_long, title = '롱', message = "{{interval}}" + " 롱")
+alertcondition(any_short, title = '숏', message =  "{{interval}}" + " 숏")
+
+
+A1 = long_1
+A2 = long_2
+A3 = long_3
+A4 = long_4
+A5 = short_1
+A6 = short_2
+A7 = short_3
+A8 = short_4
+
+
+markerNo = A1 ? 1 : A2 ? 2 : A3 ? 3 :A4 ? 4 : A5 ? 5 : A6 ? 6 : A7 ? 7 : A8 ? 8 : 0
+
+indicatorAbbreviation = "ACF"
+
+if markerNo == 1
+    indicatorAbbreviation := "롱 Ⅰ"
+
+if markerNo == 2
+    indicatorAbbreviation := "롱 Ⅱ"
+
+if markerNo == 3
+    indicatorAbbreviation := "롱 Ⅲ"
+
+if markerNo == 4
+    indicatorAbbreviation := "롱 Ⅳ"
+
+if markerNo == 5
+    indicatorAbbreviation := "숏 Ⅰ"
+
+if markerNo == 6
+    indicatorAbbreviation := "숏 Ⅱ"
+
+if markerNo == 7
+    indicatorAbbreviation := "숏 Ⅲ"
+
+if markerNo == 8
+    indicatorAbbreviation := "숏 Ⅳ"
+
+
+
+if A1 or A2 or A3 or A4 or A5 or A6 or A7 or A8
+    alert(str.tostring(indicatorAbbreviation) + '\n RES : ' + str.tostring(timeframe.period) + ', Price : ' + str.tostring(close) + ', Time : ' + str.tostring(hour(timenow, "GMT+9"), "00:") + str.tostring(minute(timenow, "GMT+9"), "00"), alert.freq_once_per_bar_close)
+
