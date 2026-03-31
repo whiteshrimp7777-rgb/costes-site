@@ -1,10 +1,68 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="ko"><head>
+<html class="dark" lang="ko">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="robots" content="max-image-preview:large"/>
+
+<!-- SEO: title (25~30자 한글) -->
+<title>슈팅스타 트레이딩 지표 | co's tes</title>
+
+<!-- SEO: canonical -->
+<link rel="canonical" href="https://costes-site.vercel.app/"/>
+
+<!-- SEO: description (60~80자 한글) -->
+<meta name="description" content="5일 만에 $520,000 수익을 실현한 슈팅스타 지표. 비트코인, 테슬라, 삼성전자 등 9개 시장 적용 가능. @cowarrr이 직접 설계한 기관급 TradingView 지표."/>
+
+<!-- SEO: Open Graph (네이버 검색 결과 스니펫에도 반영) -->
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="슈팅스타 트레이딩 지표 | co's tes"/>
+<meta property="og:description" content="5일 만에 $520,000 수익 실현. @cowarrr이 직접 설계한 기관급 TradingView 지표. BTC, ETH, TSLA, NVDA, 삼성전자 등 9개 시장 지원."/>
+<meta property="og:image" content="https://costes-site.vercel.app/assets/images/hero-bg.webp"/>
+<meta property="og:url" content="https://costes-site.vercel.app/"/>
+
+<!-- JSON-LD: Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "co's tes",
+  "url": "https://costes-site.vercel.app",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://costes-site.vercel.app/assets/images/cowarrr.jpg"
+  },
+  "description": "@cowarrr이 직접 설계한 슈팅스타 TradingView 지표 판매 플랫폼",
+  "sameAs": [
+    "https://www.instagram.com/cowarrr"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+82-10-6878-0020",
+    "contactType": "customer service",
+    "availableLanguage": "Korean"
+  }
+}
+</script>
+
+<!-- JSON-LD: BreadcrumbList -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈",
+      "item": "https://costes-site.vercel.app"
+    }
+  ]
+}
+</script>
+
+<!-- Fonts (with font-display: swap for CLS prevention) -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<title>co's tes — 슈팅스타 트레이딩 인디케이터</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
@@ -19,6 +77,21 @@
         .gold-text-glow { text-shadow: 0 0 20px rgba(184, 134, 11, 0.5), 0 0 40px rgba(184, 134, 11, 0.25); }
         .glass-panel { backdrop-filter: blur(12px); background: rgba(53, 52, 55, 0.4); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
+
+        /* Engine module card text enhancement */
+        .module-card h3 {
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.5);
+        }
+        .module-card p {
+            font-weight: 500;
+            color: #d1c5ac;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8), 0 0 15px rgba(0,0,0,0.4);
+        }
+        .module-card .font-data {
+            font-weight: 700;
+            text-shadow: 0 0 12px rgba(184,134,11,0.6), 0 0 25px rgba(184,134,11,0.3);
+        }
 
         /* Hero background slow zoom */
         @keyframes heroZoom {
@@ -102,6 +175,39 @@
         .parallax-bg {
             will-change: transform;
             transition: transform 0.1s linear;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            background: rgba(0,0,0,0.92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+            backdrop-filter: blur(8px);
+        }
+        .lightbox.active {
+            display: flex;
+        }
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            color: #B8860B;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        .zoomable {
+            cursor: zoom-in;
         }
 
         /* Scroll fade-in animation */
@@ -256,10 +362,31 @@
 <a class="nav-link text-gray-400 hover:text-white transition-colors" href="#faq">FAQ</a>
 </div>
 <div class="absolute right-8 flex items-center gap-4">
-<span class="material-symbols-outlined text-[#B8860B] cursor-pointer active:scale-95 transition-transform" data-icon="account_circle">account_circle</span>
+<span class="material-symbols-outlined text-[#B8860B] cursor-pointer active:scale-95 transition-transform hidden md:block" data-icon="account_circle">account_circle</span>
+<button id="hamburger-btn" class="md:hidden text-[#B8860B] active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-2xl">menu</span>
+</button>
 </div>
 </div>
 </nav>
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+<span class="lightbox-close material-symbols-outlined">close</span>
+<img src="" alt="" id="lightbox-img"/>
+</div>
+<!-- Mobile Menu (outside nav) -->
+<div id="mobile-menu" class="fixed inset-0 z-[200] hidden">
+<div class="absolute inset-0 bg-[#0c0c0e]/95 backdrop-blur-md" id="mobile-menu-overlay"></div>
+<div class="relative z-[201] flex flex-col items-center justify-center h-full gap-10">
+<button id="mobile-menu-close" class="absolute top-7 right-8 text-[#B8860B] active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-3xl">close</span>
+</button>
+<a class="mobile-nav-link text-2xl font-bold text-gray-300 hover:text-[#B8860B] transition-colors" href="#features">지표소개</a>
+<a class="mobile-nav-link text-2xl font-bold text-gray-300 hover:text-[#B8860B] transition-colors" href="#performance">실적</a>
+<a class="mobile-nav-link text-2xl font-bold text-gray-300 hover:text-[#B8860B] transition-colors" href="#pricing">요금제</a>
+<a class="mobile-nav-link text-2xl font-bold text-gray-300 hover:text-[#B8860B] transition-colors" href="#faq">FAQ</a>
+</div>
+</div>
 <main class="pt-20">
 <!-- Hero Section -->
 <section class="relative min-h-[85vh] flex items-center justify-center px-6 md:px-16 overflow-hidden">
@@ -271,16 +398,19 @@
 <div class="absolute inset-0 z-[2]" style="background: linear-gradient(to bottom, transparent 50%, #0c0c0e 100%);"></div>
 <!-- Hero Content (centered) -->
 <div class="relative z-[3] w-full text-center pt-16 flex flex-col items-center">
-<div class="inline-flex items-center gap-3 bg-[#B8860B]/10 border border-[#B8860B]/20 rounded-full px-5 py-2.5 mb-8">
+<div class="flex flex-col items-center gap-3 mb-8">
+<span class="text-3xl md:text-4xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#B8860B] to-[#D4A017] gold-text-glow">co's tes</span>
+<div class="inline-flex items-center gap-3 bg-[#1a1a1e] border border-[#B8860B]/30 rounded-full px-5 py-2.5" style="box-shadow: 0 0 20px rgba(184,134,11,0.15);">
 <img src="assets/images/cowarrr.jpg" alt="@cowarrr" class="w-10 h-10 rounded-full object-cover ring-2 ring-[#B8860B]/50" style="box-shadow: 0 0 15px rgba(184,134,11,0.5), 0 0 30px rgba(184,134,11,0.2);">
-<span class="text-sm font-bold tracking-widest uppercase text-[#B8860B]">@cowarrr</span>
+<span class="text-sm font-bold tracking-widest uppercase text-white">@cowarrr</span>
+</div>
 </div>
 <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter mb-6 leading-[1.1]">
 <span class="typewriter-target" data-text="코월님은 매매를">코월님은 매매를</span><br/>
 <span class="text-transparent bg-clip-text gold-gradient gold-text-glow typewriter-target" data-text="왜 이렇게 잘하세요?" data-delay="900">왜 이렇게 잘하세요?</span>
 </h1>
 <p class="text-on-surface-variant text-lg md:text-xl mb-4 font-medium leading-relaxed max-w-2xl">
-5일 만에 <span class="text-[#B8860B] font-bold font-data">$520,000</span> — 슈팅스타가 증명한 시그널
+5일 만에 <span class="text-[#B8860B] font-bold font-data">$520,000</span> — 코월의 슈팅스타가 증명한 시그널
 </p>
 <p class="text-[#6B6B75] text-sm mb-10">co's tes — cowarrr가 만들어주는 너의(tes) 것.</p>
 <div class="flex items-center justify-center gap-4">
@@ -311,7 +441,7 @@
 <section id="features" class="py-24 px-6 md:px-12 max-w-[1440px] mx-auto">
 <div class="text-center mb-16">
 <span class="text-xs font-bold tracking-[0.3em] uppercase text-[#B8860B] mb-4 block">Shooting Star Indicator</span>
-<h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4 typewriter-target" data-text="슈팅스타 인디케이터">슈팅스타 <span class="text-transparent bg-clip-text gold-gradient gold-text-glow">인디케이터</span></h2>
+<h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4 typewriter-target" data-text="슈팅스타 지표">슈팅스타 <span class="text-transparent bg-clip-text gold-gradient gold-text-glow">지표</span></h2>
 <p class="text-on-surface-variant text-lg">코월이 직접 설계한 기관급 매매 보조 도구</p>
 </div>
 <div class="grid lg:grid-cols-3 gap-6 mb-16">
@@ -327,7 +457,7 @@
 <h3 class="text-xl font-bold mb-2"><span class="text-[#B8860B]">저위험</span> 진입</h3>
 <p class="text-[#6B6B75] text-xs uppercase tracking-widest mb-4 font-data">Low Risk Entry</p>
 <p class="text-on-surface-variant leading-relaxed text-sm">
-알고리즘 기반의 정교한 필터링으로 <span class="text-white font-medium">리스크를 최소화</span>한 최적의 진입 시점을 포착합니다. 불확실한 시장에서도 흔들리지 않는 시그널.
+알고리즘 기반의 정교한 필터링으로<br/><span class="text-white font-medium">리스크를 최소화</span>한 최적의 진입 시점을 포착합니다.<br/>불확실한 시장에서도 흔들리지 않는 시그널.
 </p>
 </div>
 </div>
@@ -343,7 +473,7 @@
 <h3 class="text-xl font-bold mb-2"><span class="text-[#B8860B]">고수익</span> 청산</h3>
 <p class="text-[#6B6B75] text-xs uppercase tracking-widest mb-4 font-data">Maximum Profit Exit</p>
 <p class="text-on-surface-variant leading-relaxed text-sm">
-동적 익절 시스템이 추세의 끝을 예측하여 <span class="text-white font-medium">수익을 극대화</span>합니다. 되돌림 발생 전 안전한 엑싯 타이밍을 제공합니다.
+동적 익절 시스템이 추세의 끝을 예측하여<br/><span class="text-white font-medium">수익을 극대화</span>합니다.<br/>되돌림 발생 전 안전한 엑싯 타이밍을 제공합니다.
 </p>
 </div>
 </div>
@@ -359,7 +489,7 @@
 <h3 class="text-xl font-bold mb-2"><span class="text-[#B8860B]">정밀</span> 타이밍</h3>
 <p class="text-[#6B6B75] text-xs uppercase tracking-widest mb-4 font-data">Precision Timing</p>
 <p class="text-on-surface-variant leading-relaxed text-sm">
-기관들의 주문 블록과 체결 강도를 실시간 분석하여 소매 트레이더들이 놓치기 쉬운 <span class="text-white font-medium">찰나의 변곡점</span>을 잡아냅니다.
+기관들의 주문 블록과 체결 강도를 실시간 분석하여<br/>소매 트레이더들이 놓치기 쉬운<br/><span class="text-white font-medium">찰나의 변곡점</span>을 잡아냅니다.
 </p>
 </div>
 </div>
@@ -426,7 +556,7 @@
 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
 <!-- Module 1: Delta Volume -->
-<div class="relative rounded-xl overflow-hidden group card-hover icon-hover-spin">
+<div class="relative rounded-xl overflow-hidden group card-hover icon-hover-spin module-card">
 <div class="absolute inset-0 z-0" style="background: url('assets/images/modules/delta.jpg') center/cover no-repeat;"></div>
 <div class="absolute inset-0 z-[1]" style="background: rgba(12,12,14,0.82);"></div>
 <div class="relative z-[2] p-7">
@@ -444,7 +574,7 @@
 </div>
 
 <!-- Module 2: Keltner Channel -->
-<div class="relative rounded-xl overflow-hidden group card-hover icon-hover-spin">
+<div class="relative rounded-xl overflow-hidden group card-hover icon-hover-spin module-card">
 <div class="absolute inset-0 z-0" style="background: url('assets/images/modules/keltner.jpg') center/cover no-repeat;"></div>
 <div class="absolute inset-0 z-[1]" style="background: rgba(12,12,14,0.82);"></div>
 <div class="relative z-[2] p-7">
@@ -462,7 +592,7 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 </div>
 
 <!-- Module 3: RSI Divergence -->
-<div class="relative rounded-xl overflow-hidden group card-hover icon-hover-spin">
+<div class="relative rounded-xl overflow-hidden group card-hover icon-hover-spin module-card">
 <div class="absolute inset-0 z-0" style="background: url('assets/images/modules/rsi.jpg') center/cover no-repeat;"></div>
 <div class="absolute inset-0 z-[1]" style="background: rgba(12,12,14,0.82);"></div>
 <div class="relative z-[2] p-7">
@@ -480,7 +610,7 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 </div>
 
 <!-- Module 4: MFI -->
-<div class="relative rounded-xl overflow-hidden group card-hover icon-hover-spin">
+<div class="relative rounded-xl overflow-hidden group card-hover icon-hover-spin module-card">
 <div class="absolute inset-0 z-0" style="background: url('assets/images/modules/mfi.jpg') center/cover no-repeat;"></div>
 <div class="absolute inset-0 z-[1]" style="background: rgba(12,12,14,0.82);"></div>
 <div class="relative z-[2] p-7">
@@ -498,7 +628,7 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 </div>
 
 <!-- Module 5: SFP -->
-<div class="relative rounded-xl overflow-hidden group card-hover icon-hover-spin">
+<div class="relative rounded-xl overflow-hidden group card-hover icon-hover-spin module-card">
 <div class="absolute inset-0 z-0" style="background: url('assets/images/modules/sfp.jpg') center/cover no-repeat;"></div>
 <div class="absolute inset-0 z-[1]" style="background: rgba(12,12,14,0.82);"></div>
 <div class="relative z-[2] p-7">
@@ -516,7 +646,7 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 </div>
 
 <!-- Module 6: Disparity Trend Filter -->
-<div class="relative rounded-xl overflow-hidden group card-hover icon-hover-spin">
+<div class="relative rounded-xl overflow-hidden group card-hover icon-hover-spin module-card">
 <div class="absolute inset-0 z-0" style="background: url('assets/images/modules/vidya.jpg') center/cover no-repeat;"></div>
 <div class="absolute inset-0 z-[1]" style="background: rgba(12,12,14,0.82);"></div>
 <div class="relative z-[2] p-7">
@@ -541,7 +671,7 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 <!-- Market Accuracy Section -->
 <section class="relative py-24 overflow-hidden">
 <div class="absolute inset-0 z-0" style="background: url('assets/images/modules/accuracy-bg.jpg') center/cover no-repeat;"></div>
-<div class="absolute inset-0 z-[1]" style="background: rgba(12,12,14,0.90);"></div>
+<div class="absolute inset-0 z-[1]" style="background: rgba(12,12,14,0.75);"></div>
 <div class="absolute inset-0 z-[2]" style="background: linear-gradient(to bottom, #0c0c0e 0%, transparent 15%, transparent 85%, #0c0c0e 100%);"></div>
 <div class="relative z-[3] px-6 md:px-12 max-w-[1440px] mx-auto">
 <div class="text-center mb-16">
@@ -552,7 +682,7 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 <div class="grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6">
 <!-- BTC -->
 <div class="relative rounded-lg md:rounded-xl overflow-hidden group card-hover">
-<img src="accuracy/btc.png" alt="BTC 적중" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"/>
+<img src="accuracy/btc.png" alt="슈팅스타 지표 비트코인 매매 시그널 적중 차트" width="480" height="270" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
 <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0c0c0e] to-transparent">
 <div class="flex items-center gap-2">
 <img src="assets/images/logos/btc.png" class="w-5 h-5 rounded-full" alt="BTC"/>
@@ -563,7 +693,7 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 </div>
 <!-- ETH -->
 <div class="relative rounded-lg md:rounded-xl overflow-hidden group card-hover">
-<img src="accuracy/eth.png" alt="ETH 적중" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"/>
+<img src="accuracy/eth.png" alt="슈팅스타 지표 이더리움 매매 시그널 적중 차트" width="480" height="270" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
 <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0c0c0e] to-transparent">
 <div class="flex items-center gap-2">
 <img src="assets/images/logos/eth.png" class="w-5 h-5 rounded-full" alt="ETH"/>
@@ -574,7 +704,7 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 </div>
 <!-- Gold -->
 <div class="relative rounded-lg md:rounded-xl overflow-hidden group card-hover">
-<img src="accuracy/gold.png" alt="Gold 적중" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"/>
+<img src="accuracy/gold.png" alt="슈팅스타 지표 금 XAU 매매 시그널 적중 차트" width="480" height="270" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
 <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0c0c0e] to-transparent">
 <div class="flex items-center gap-2">
 <img src="assets/images/logos/gold.png" class="w-5 h-5 rounded-full" alt="Gold"/>
@@ -585,7 +715,7 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 </div>
 <!-- Tesla -->
 <div class="relative rounded-lg md:rounded-xl overflow-hidden group card-hover">
-<img src="accuracy/tsla.png" alt="Tesla 적중" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"/>
+<img src="accuracy/tsla.png" alt="슈팅스타 지표 테슬라 TSLA 매매 시그널 적중 차트" width="480" height="270" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
 <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0c0c0e] to-transparent">
 <div class="flex items-center gap-2">
 <img src="assets/images/logos/tsla.png" class="w-5 h-5 rounded-full" alt="TSLA"/>
@@ -596,7 +726,7 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 </div>
 <!-- NVIDIA -->
 <div class="relative rounded-lg md:rounded-xl overflow-hidden group card-hover">
-<img src="accuracy/nvda.png" alt="NVIDIA 적중" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"/>
+<img src="accuracy/nvda.png" alt="슈팅스타 지표 엔비디아 NVDA 매매 시그널 적중 차트" width="480" height="270" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
 <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0c0c0e] to-transparent">
 <div class="flex items-center gap-2">
 <img src="assets/images/logos/nvda.png" class="w-5 h-5 rounded-full" alt="NVDA"/>
@@ -607,7 +737,7 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 </div>
 <!-- Samsung -->
 <div class="relative rounded-lg md:rounded-xl overflow-hidden group card-hover">
-<img src="accuracy/samsung.png" alt="삼성전자 적중" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"/>
+<img src="accuracy/samsung.png" alt="슈팅스타 지표 삼성전자 매매 시그널 적중 차트" width="480" height="270" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
 <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0c0c0e] to-transparent">
 <div class="flex items-center gap-2">
 <img src="assets/images/logos/samsung.png" class="w-5 h-5 rounded-full" alt="Samsung"/>
@@ -620,8 +750,11 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 </div>
 </section>
 <!-- Performance Proof Section -->
-<section id="performance" class="py-24 bg-surface-container-lowest">
-<div class="max-w-[1440px] mx-auto px-6 md:px-12 text-center">
+<section id="performance" class="relative py-24 overflow-hidden">
+<div class="absolute inset-0 z-0" style="background: url('assets/images/modules/profit-bg.jpg') center/cover no-repeat;"></div>
+<div class="absolute inset-0 z-[1]" style="background: rgba(12,12,14,0.65);"></div>
+<div class="absolute inset-0 z-[2]" style="background: linear-gradient(to bottom, #0c0c0e 0%, transparent 15%, transparent 85%, #0c0c0e 100%);"></div>
+<div class="relative z-[3] max-w-[1440px] mx-auto px-6 md:px-12 text-center">
 <h2 class="text-2xl font-bold text-on-surface-variant mb-8 uppercase tracking-[0.3em] typewriter-target" data-text="실전 수익 증명">실전 수익 증명</h2>
 <div class="inline-flex items-center gap-2 bg-[#B8860B]/10 border border-[#B8860B]/20 rounded-full px-4 py-2 mb-6">
 <span class="text-xs font-bold tracking-widest uppercase text-[#B8860B]">3월 27일 ~ 31일 · 단 5일간 달성</span>
@@ -632,7 +765,7 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 </div>
 <div class="text-left">
 <div class="text-sm font-bold text-[#B8860B] uppercase tracking-widest mb-1">@cowarrr</div>
-<div class="text-xs text-on-surface-variant">슈팅스타 인디케이터 설계자</div>
+<div class="text-xs text-on-surface-variant">슈팅스타 지표 설계자</div>
 </div>
 </div>
 <div class="text-7xl md:text-9xl font-black text-primary-container tracking-tighter mb-2 tabular-nums font-data gold-text-glow" id="profit-counter">
@@ -642,13 +775,14 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 <p class="text-xl text-on-surface-variant mb-16">5일간 실전 트레이딩 수익</p>
 <div class="grid grid-cols-3 gap-2 md:gap-8 mb-16">
 <div class="rounded-xl md:rounded-2xl bg-surface-container overflow-hidden">
-<img alt="수익 인증 1" class="w-full h-auto object-contain" src="profit-proof/IMG_1983.jpg"/>
+<img alt="코월 @cowarrr BTCUSDT 실전 수익 내역 175K 달러" width="360" height="640" class="w-full h-auto object-contain zoomable" src="profit-proof/IMG_1983.jpg"/>
 </div>
 <div class="rounded-xl md:rounded-2xl bg-surface-container overflow-hidden">
-<img alt="수익 인증 2" class="w-full h-auto object-contain" src="profit-proof/IMG_1984.jpg"/>
+<img alt="코월 @cowarrr BTCUSDT 실전 수익 내역 30K 달러 추가 포지션" width="360" height="640" class="w-full h-auto object-contain zoomable" src="profit-proof/IMG_1984.jpg"/>
 </div>
 <div class="rounded-xl md:rounded-2xl bg-surface-container overflow-hidden">
-<img alt="수익 인증 3" class="w-full h-auto object-contain" src="profit-proof/IMG_1985.jpg"/>
+<img alt="코월 @cowarrr BTCUSDT 현재 포지션 PNL 107K 달러 ROI 68%" width="360" height="640" class="w-full h-auto object-contain zoomable" src="profit-proof/IMG_1985.jpg"/>
+</div>
 </div>
 </div>
 </div>
@@ -656,7 +790,7 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 <!-- Pricing Section -->
 <section id="pricing" class="relative py-24 overflow-hidden">
 <div class="absolute inset-0 z-0" style="background: url('assets/images/modules/pricing-bg.jpg') center/cover no-repeat;"></div>
-<div class="absolute inset-0 z-[1]" style="background: rgba(12,12,14,0.88);"></div>
+<div class="absolute inset-0 z-[1]" style="background: rgba(12,12,14,0.50);"></div>
 <div class="absolute inset-0 z-[2]" style="background: linear-gradient(to bottom, #0c0c0e 0%, transparent 15%, transparent 85%, #0c0c0e 100%);"></div>
 <div class="relative z-[3] px-6 md:px-12 max-w-[1440px] mx-auto">
 <div class="text-center mb-16">
@@ -760,7 +894,11 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 </div>
 </section>
 <!-- FAQ Section -->
-<section id="faq" class="py-24 px-6 md:px-12 max-w-3xl mx-auto">
+<section id="faq" class="relative py-24 overflow-hidden">
+<div class="absolute inset-0 z-0" style="background: url('assets/images/modules/faq-bg.jpg') center/cover no-repeat;"></div>
+<div class="absolute inset-0 z-[1]" style="background: rgba(12,12,14,0.65);"></div>
+<div class="absolute inset-0 z-[2]" style="background: linear-gradient(to bottom, #0c0c0e 0%, transparent 15%, transparent 85%, #0c0c0e 100%);"></div>
+<div class="relative z-[3] px-6 md:px-12 max-w-3xl mx-auto">
 <h2 class="text-3xl font-bold text-center mb-16">FAQ</h2>
 <div class="space-y-4">
 <!-- FAQ Item 1 -->
@@ -799,6 +937,7 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 </button>
 </div>
 </div>
+</div>
 </section>
 </main>
 <!-- Footer -->
@@ -824,6 +963,42 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 </div>
 </footer>
 <script>
+// Lightbox
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+document.querySelectorAll('.zoomable').forEach(img => {
+  img.addEventListener('click', () => {
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+});
+lightbox.addEventListener('click', () => {
+  lightbox.classList.remove('active');
+  document.body.style.overflow = '';
+});
+
+// Mobile hamburger menu
+const hamburgerBtn = document.getElementById('hamburger-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileMenuClose = document.getElementById('mobile-menu-close');
+const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+
+if (hamburgerBtn) {
+  hamburgerBtn.addEventListener('click', () => mobileMenu.classList.remove('hidden'));
+  mobileMenuClose.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+  mobileMenuOverlay.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      mobileMenu.classList.add('hidden');
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+}
+
 // Golden particles in hero
 const particleContainer = document.getElementById('particles');
 if (particleContainer) {
@@ -1077,19 +1252,6 @@ function updateActiveNav() {
 window.addEventListener('scroll', updateActiveNav);
 updateActiveNav();
 
-// Scroll fade-in animation - only on section headers and feature cards
-document.querySelectorAll('.text-center.mb-16, .text-center.mb-20, .lg\\:grid-cols-3 > div, .md\\:grid-cols-2 > div').forEach(el => {
-  if (!el.closest('.market-ticker') && !el.closest('nav') && !el.closest('.min-h-\\[85vh\\]')) {
-    el.classList.add('fade-up');
-  }
-});
-const fadeObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, { threshold: 0.05 });
-document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
+// Scroll fade-in removed to prevent rendering issues
 </script>
 </body></html>
