@@ -93,6 +93,44 @@
             text-shadow: 0 0 12px rgba(184,134,11,0.6), 0 0 25px rgba(184,134,11,0.3);
         }
 
+        /* Scroll progress bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #B8860B, #D4A017);
+            z-index: 200;
+            width: 0%;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 8px rgba(184, 134, 11, 0.5);
+        }
+
+        /* Mouse gold trail */
+        .cursor-trail {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: #B8860B;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s;
+            filter: blur(1px);
+        }
+
+        /* Section reveal on scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* Hero background slow zoom */
         @keyframes heroZoom {
             0% { transform: scale(1); }
@@ -351,15 +389,23 @@
     </script>
 </head>
 <body class="bg-background text-on-background selection:bg-primary-container selection:text-on-primary-container">
+<!-- Scroll Progress Bar -->
+<div class="scroll-progress" id="scroll-progress"></div>
+<!-- Mouse Gold Trail -->
+<div class="cursor-trail" id="trail-1"></div>
+<div class="cursor-trail" id="trail-2"></div>
+<div class="cursor-trail" id="trail-3"></div>
 <!-- Top Navigation Bar -->
 <nav class="fixed top-0 w-full z-50 bg-[#0c0c0e]/80 backdrop-blur-md shadow-2xl shadow-black/50">
 <div class="flex justify-center items-center px-8 h-20 w-full max-w-[1920px] mx-auto relative">
-<div class="absolute left-8 text-2xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#B8860B] to-[#D4A017] gold-text-glow">co's tes</div>
+<a href="/" class="absolute left-8 flex items-center gap-1"><img src="/assets/images/symbol.png" alt="코월 심볼" width="32" height="36" class="h-8 w-auto"/><img src="/assets/images/logo.png" alt="co'stes 로고" width="100" height="36" class="h-8 w-auto"/></a>
 <div class="hidden md:flex items-center gap-10 font-['Inter'] font-medium tracking-tight">
 <a class="nav-link text-gray-400 hover:text-white transition-colors" href="#features">지표소개</a>
 <a class="nav-link text-gray-400 hover:text-white transition-colors" href="#performance">실적</a>
 <a class="nav-link text-gray-400 hover:text-white transition-colors" href="#pricing">요금제</a>
 <a class="nav-link text-gray-400 hover:text-white transition-colors" href="#faq">FAQ</a>
+<a class="text-gray-400 hover:text-white transition-colors" href="/guide.html">설치 가이드</a>
+<a class="text-gray-400 hover:text-white transition-colors" href="/about.html">코월 소개</a>
 </div>
 <div class="absolute right-8 flex items-center gap-4">
 <span class="material-symbols-outlined text-[#B8860B] cursor-pointer active:scale-95 transition-transform hidden md:block" data-icon="account_circle">account_circle</span>
@@ -385,6 +431,13 @@
 <a class="mobile-nav-link text-2xl font-bold text-gray-300 hover:text-[#B8860B] transition-colors" href="#performance">실적</a>
 <a class="mobile-nav-link text-2xl font-bold text-gray-300 hover:text-[#B8860B] transition-colors" href="#pricing">요금제</a>
 <a class="mobile-nav-link text-2xl font-bold text-gray-300 hover:text-[#B8860B] transition-colors" href="#faq">FAQ</a>
+<div class="w-12 border-t border-[#B8860B]/20"></div>
+<a class="text-xl font-bold text-gray-300 hover:text-[#B8860B] transition-colors" href="/guide.html">설치 가이드</a>
+<a class="text-xl font-bold text-gray-300 hover:text-[#B8860B] transition-colors" href="/about.html">코월 소개</a>
+<div class="w-12 border-t border-[#B8860B]/20"></div>
+<a class="text-lg text-gray-400 hover:text-[#B8860B] transition-colors" href="/blog/tradingview-indicator-guide.html">보조지표 선택법</a>
+<a class="text-lg text-gray-400 hover:text-[#B8860B] transition-colors" href="/blog/shooting-star-candle.html">슈팅스타 캔들 패턴</a>
+<a class="text-lg text-gray-400 hover:text-[#B8860B] transition-colors" href="/blog/bitcoin-trading-signal.html">비트코인 매매 시그널</a>
 </div>
 </div>
 <main class="pt-20">
@@ -397,28 +450,21 @@
 <div class="absolute inset-0 z-[1]" style="background: radial-gradient(ellipse at 70% 30%, rgba(184,134,11,0.12) 0%, transparent 60%);"></div>
 <div class="absolute inset-0 z-[2]" style="background: linear-gradient(to bottom, transparent 50%, #0c0c0e 100%);"></div>
 <!-- Hero Content (centered) -->
-<div class="relative z-[3] w-full text-center pt-16 flex flex-col items-center">
-<div class="flex flex-col items-center gap-3 mb-8">
-<span class="text-3xl md:text-4xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#B8860B] to-[#D4A017] gold-text-glow">co's tes</span>
-<div class="inline-flex items-center gap-3 bg-[#1a1a1e] border border-[#B8860B]/30 rounded-full px-5 py-2.5" style="box-shadow: 0 0 20px rgba(184,134,11,0.15);">
-<img src="assets/images/cowarrr.jpg" alt="@cowarrr" class="w-10 h-10 rounded-full object-cover ring-2 ring-[#B8860B]/50" style="box-shadow: 0 0 15px rgba(184,134,11,0.5), 0 0 30px rgba(184,134,11,0.2);">
-<span class="text-sm font-bold tracking-widest uppercase text-white">@cowarrr</span>
-</div>
-</div>
-<h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter mb-6 leading-[1.1]">
-<span class="typewriter-target" data-text="코월님은 매매를">코월님은 매매를</span><br/>
+<div class="relative z-[3] w-full text-center pt-16 md:pt-24 flex flex-col items-center">
+<h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-10" style="line-height: 1.4;">
+<span class="typewriter-target" data-text="코월 님은 매매를">코월 님은 매매를</span><br/>
 <span class="text-transparent bg-clip-text gold-gradient gold-text-glow typewriter-target" data-text="왜 이렇게 잘하세요?" data-delay="900">왜 이렇게 잘하세요?</span>
 </h1>
-<p class="text-on-surface-variant text-lg md:text-xl mb-4 font-medium leading-relaxed max-w-2xl">
-5일 만에 <span class="text-[#B8860B] font-bold font-data">$520,000</span> — 코월의 슈팅스타가 증명한 시그널
+<p class="text-on-surface-variant text-lg md:text-xl mb-6 font-medium max-w-2xl" style="line-height: 1.8;">
+5일 만에 <span class="text-[#B8860B] font-bold font-data">$520,000</span><span class="text-[#6B6B75]">(약 7억 5천)</span><br/>— 코월의 '슈팅스타'가 증명한 시그널
 </p>
-<p class="text-[#6B6B75] text-sm mb-10">co's tes — cowarrr가 만들어주는 너의(tes) 것.</p>
+<div class="mb-12"><div class="flex items-center justify-center gap-2 mb-3"><img src="/assets/images/symbol.png" alt="코월 심볼" width="40" height="45" class="h-10 w-auto"/><img src="/assets/images/logo.png" alt="co'stes 로고" width="140" height="50" class="h-10 w-auto"/></div><p class="text-[#B0B0B8] text-sm md:text-base font-semibold" style="line-height: 1.6;">코월(cowarrr)이 만들어주는 너의(tes) 것.</p></div>
 <div class="flex items-center justify-center gap-4">
 <button class="gold-gradient cta-pulse text-[#0c0c0e] font-bold px-10 py-4 rounded-lg text-lg hover:brightness-110 active:scale-95 transition-all">
 슈팅스타로 시작하기
 </button>
-<a href="#performance" class="text-[#B8860B] font-medium hover:text-white transition-colors flex items-center gap-1">
-실적 보기 <span class="material-symbols-outlined text-sm">arrow_forward</span>
+<a href="/guide.html" class="text-[#B8860B] font-medium hover:text-white transition-colors flex items-center gap-1">
+설치 가이드 <span class="material-symbols-outlined text-sm">arrow_forward</span>
 </a>
 </div>
 </div>
@@ -428,13 +474,13 @@
 <div class="market-ticker-inner">
 <div class="ticker-item"><img src="assets/images/logos/btc.png" alt="BTC" class="ticker-logo" width="28" height="28"><span class="ticker-name">Bitcoin</span></div>
 <div class="ticker-item"><img src="assets/images/logos/eth.png" alt="ETH" class="ticker-logo" width="28" height="28"><span class="ticker-name">Ethereum</span></div>
-<div class="ticker-item"><img src="assets/images/logos/tsla.png" alt="TSLA" class="ticker-logo" width="28" height="28"><span class="ticker-name">Tesla</span></div>
-<div class="ticker-item"><img src="assets/images/logos/nvda.png" alt="NVDA" class="ticker-logo" width="28" height="28"><span class="ticker-name">NVIDIA</span></div>
-<div class="ticker-item"><img src="assets/images/logos/samsung.png" alt="삼성전자" class="ticker-logo" width="28" height="28"><span class="ticker-name">Samsung</span></div>
-<div class="ticker-item"><img src="assets/images/logos/skhynix.png" alt="SK하이닉스" class="ticker-logo" width="28" height="28"><span class="ticker-name">SK</span></div>
-<div class="ticker-item"><img src="assets/images/logos/gold.png" alt="Gold" class="ticker-logo" width="28" height="28"><span class="ticker-name">Gold</span></div>
-<div class="ticker-item"><img src="assets/images/logos/oil.png" alt="Oil" class="ticker-logo" width="28" height="28"><span class="ticker-name">Crude Oil</span></div>
-<div class="ticker-item"><img src="assets/images/logos/usdkrw.png" alt="USD/KRW" class="ticker-logo" width="28" height="28"><span class="ticker-name">USD/KRW</span></div>
+<div class="ticker-item"><img src="assets/images/logos/tsla.jpg" alt="TSLA" class="ticker-logo" width="28" height="28"><span class="ticker-name">Tesla</span></div>
+<div class="ticker-item"><img src="assets/images/logos/nvda.jpg" alt="NVDA" class="ticker-logo" width="28" height="28"><span class="ticker-name">NVIDIA</span></div>
+<div class="ticker-item"><img src="assets/images/logos/samsung.jpg" alt="삼성전자" class="ticker-logo" width="28" height="28"><span class="ticker-name">Samsung</span></div>
+<div class="ticker-item"><img src="assets/images/logos/skhynix.jpg" alt="SK하이닉스" class="ticker-logo" width="28" height="28"><span class="ticker-name">SK</span></div>
+<div class="ticker-item"><img src="assets/images/logos/gold.jpg" alt="Gold" class="ticker-logo" width="28" height="28"><span class="ticker-name">Gold</span></div>
+<div class="ticker-item"><img src="assets/images/logos/oil.jpg" alt="Oil" class="ticker-logo" width="28" height="28"><span class="ticker-name">Crude Oil</span></div>
+<div class="ticker-item"><img src="assets/images/logos/usdkrw.jpg" alt="USD/KRW" class="ticker-logo" width="28" height="28"><span class="ticker-name">USD/KRW</span></div>
 </div>
 </section>
 <!-- Indicator Features Section -->
@@ -517,8 +563,8 @@
 <!-- Section Header -->
 <div class="text-center mb-20">
 <span class="text-xs font-bold tracking-[0.3em] uppercase text-[#B8860B] mb-4 block">Algorithm Architecture</span>
-<h2 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 typewriter-target" data-text="슈팅스타의 엔진">슈팅스타의 <span class="text-transparent bg-clip-text gold-gradient gold-text-glow">엔진</span></h2>
-<p class="text-on-surface-variant text-lg max-w-2xl mx-auto">6개의 독립 분석 모듈이 실시간으로 교차 검증하여,<br/>노이즈를 제거하고 고확률 시그널만 추출합니다.</p>
+<h2 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 typewriter-target" data-text="슈팅스타가 뭔가요?">슈팅스타가 <span class="text-transparent bg-clip-text gold-gradient gold-text-glow">뭔가요?</span></h2>
+<p class="text-on-surface-variant text-lg max-w-2xl mx-auto">독자적인 알고리즘이 시장의 노이즈를 걸러내고,<br/>진짜 시그널만 당신에게 전달합니다.</p>
 <!-- Signal Grade Bar -->
 <div class="mt-10 flex justify-center items-center gap-4 md:gap-8 flex-wrap">
 <div class="flex items-center gap-2">
@@ -562,13 +608,13 @@
 <div class="relative z-[2] p-7">
 <div class="flex items-center gap-3 mb-4">
 <div class="w-10 h-10 rounded-lg bg-[#B8860B]/10 flex items-center justify-center text-[#B8860B] group-hover:bg-[#B8860B] group-hover:text-[#0c0c0e] transition-all">
-<span class="material-symbols-outlined text-xl">candlestick_chart</span>
+<span class="material-symbols-outlined text-xl">monitoring</span>
 </div>
-<h3 class="font-bold text-lg">델타 볼륨 분석</h3>
+<h3 class="font-bold text-lg">매수·매도 힘의 균형</h3>
 </div>
-<p class="text-on-surface-variant text-sm leading-relaxed mb-3">하위 타임프레임의 매수/매도 체결량을 분리 계산하여 200봉 평균 대비 이상 급등을 감지합니다.</p>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-3">시장 참여자들의 매수와 매도 에너지를 실시간으로 측정하여 한쪽이 압도적으로 쏠리는 순간을 포착합니다.</p>
 <div class="flex items-center gap-2 text-xs text-[#6B6B75]">
-<span class="font-data text-[#B8860B]">7x</span> 배수 이상 시 시그널 발동
+<span class="font-data text-[#B8860B]">실시간</span> 에너지 감지
 </div>
 </div>
 </div>
@@ -582,11 +628,11 @@
 <div class="w-10 h-10 rounded-lg bg-[#B8860B]/10 flex items-center justify-center text-[#B8860B] group-hover:bg-[#B8860B] group-hover:text-[#0c0c0e] transition-all">
 <span class="material-symbols-outlined text-xl">show_chart</span>
 </div>
-<h3 class="font-bold text-lg">켈트너 채널 돌파</h3>
+<h3 class="font-bold text-lg">극단 가격 이탈 감지</h3>
 </div>
-<p class="text-on-surface-variant text-sm leading-relaxed mb-3">ATR 기반 3배수 밴드를 설정하여 극단적 가격 이탈을 포착합니다. 델타와 동시 발동 시 강력 시그널로 분류됩니다.</p>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-3">가격이 정상 범위를 벗어나는 극단적 순간을 자동으로 포착합니다. 과열과 공포의 경계를 수학적으로 판별합니다.</p>
 <div class="flex items-center gap-2 text-xs text-[#6B6B75]">
-ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
+<span class="font-data text-[#B8860B]">자동</span> 경계 판별
 </div>
 </div>
 </div>
@@ -600,11 +646,11 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 <div class="w-10 h-10 rounded-lg bg-[#B8860B]/10 flex items-center justify-center text-[#B8860B] group-hover:bg-[#B8860B] group-hover:text-[#0c0c0e] transition-all">
 <span class="material-symbols-outlined text-xl">insights</span>
 </div>
-<h3 class="font-bold text-lg">5단계 RSI 다이버전스</h3>
+<h3 class="font-bold text-lg">가격과 모멘텀의 괴리</h3>
 </div>
-<p class="text-on-surface-variant text-sm leading-relaxed mb-3">최대 5개 피벗 포인트를 역추적하여 가격과 RSI의 괴리를 다단계로 검출합니다. 단계가 높을수록 반전 확률 증가.</p>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-3">겉으로는 상승하지만 내부 동력이 꺼져가는 순간을 다단계로 검출합니다. 강도가 높을수록 반전 확률이 올라갑니다.</p>
 <div class="flex items-center gap-2 text-xs text-[#6B6B75]">
-<span class="font-data text-[#B8860B]">Lv.1~5</span> 다단계 강도 분류
+<span class="font-data text-[#B8860B]">다단계</span> 강도 분류
 </div>
 </div>
 </div>
@@ -618,11 +664,11 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 <div class="w-10 h-10 rounded-lg bg-[#B8860B]/10 flex items-center justify-center text-[#B8860B] group-hover:bg-[#B8860B] group-hover:text-[#0c0c0e] transition-all">
 <span class="material-symbols-outlined text-xl">water_drop</span>
 </div>
-<h3 class="font-bold text-lg">자금흐름지표 (MFI)</h3>
+<h3 class="font-bold text-lg">스마트 머니 추적</h3>
 </div>
-<p class="text-on-surface-variant text-sm leading-relaxed mb-3">가격과 거래량을 결합한 자금 유입/유출 분석. 과매수 83 이상, 과매도 17 이하에서 크로스 발생 시 트리거됩니다.</p>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-3">큰 손들의 자금이 어디로 흘러가는지 추적합니다. 개인 투자자가 보지 못하는 자금 흐름의 전환점을 잡아냅니다.</p>
 <div class="flex items-center gap-2 text-xs text-[#6B6B75]">
-거래량 <span class="font-data text-[#B8860B]">2x</span> EMA 초과 시에만 유효
+<span class="font-data text-[#B8860B]">자금 흐름</span> 전환 감지
 </div>
 </div>
 </div>
@@ -636,11 +682,11 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 <div class="w-10 h-10 rounded-lg bg-[#B8860B]/10 flex items-center justify-center text-[#B8860B] group-hover:bg-[#B8860B] group-hover:text-[#0c0c0e] transition-all">
 <span class="material-symbols-outlined text-xl">swap_vert</span>
 </div>
-<h3 class="font-bold text-lg">스윙 실패 패턴 (SFP)</h3>
+<h3 class="font-bold text-lg">기관의 함정 역이용</h3>
 </div>
-<p class="text-on-surface-variant text-sm leading-relaxed mb-3">800봉 최고/최저를 돌파한 뒤 다시 복귀하는 패턴을 감지합니다. 기관의 유동성 사냥을 역이용하는 핵심 로직.</p>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-3">기관이 개인 투자자를 털기 위해 만든 가짜 돌파를 역으로 이용합니다. 함정이 끝나는 바로 그 순간에 진입합니다.</p>
 <div class="flex items-center gap-2 text-xs text-[#6B6B75]">
-<span class="font-data text-[#B8860B]">800</span>봉 구간 스캔
+<span class="font-data text-[#B8860B]">역발상</span> 진입 로직
 </div>
 </div>
 </div>
@@ -654,11 +700,11 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 <div class="w-10 h-10 rounded-lg bg-[#B8860B]/10 flex items-center justify-center text-[#B8860B] group-hover:bg-[#B8860B] group-hover:text-[#0c0c0e] transition-all">
 <span class="material-symbols-outlined text-xl">filter_alt</span>
 </div>
-<h3 class="font-bold text-lg">VIDYA 이격도 필터</h3>
+<h3 class="font-bold text-lg">노이즈 필터링 시스템</h3>
 </div>
-<p class="text-on-surface-variant text-sm leading-relaxed mb-3">VIDYA 동적 이동평균과 JMA 스무딩을 결합한 추세 필터. 역추세 시그널을 자동 보류하고 추세 전환 시 일괄 발동합니다.</p>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-3">추세를 거스르는 거짓 시그널을 자동으로 걸러냅니다. 흐름이 바뀌는 순간에만 정확히 발동하는 지능형 필터입니다.</p>
 <div class="flex items-center gap-2 text-xs text-[#6B6B75]">
-역추세 시그널 <span class="font-data text-[#B8860B]">자동 보류</span>
+거짓 시그널 <span class="font-data text-[#B8860B]">자동 차단</span>
 </div>
 </div>
 </div>
@@ -679,69 +725,69 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4 typewriter-target" data-text="종목별 적중 예시">종목별 적중 예시</h2>
 <p class="text-on-surface-variant text-lg">슈팅스타 시그널이 실제 시장에서 포착한 진입/청산 포인트</p>
 </div>
-<div class="grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6">
+<div class="flex flex-col gap-8 max-w-4xl mx-auto">
 <!-- BTC -->
-<div class="relative rounded-lg md:rounded-xl overflow-hidden group card-hover">
-<img src="accuracy/btc.png" alt="슈팅스타 지표 비트코인 매매 시그널 적중 차트" width="480" height="270" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
-<div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0c0c0e] to-transparent">
-<div class="flex items-center gap-2">
-<img src="assets/images/logos/btc.png" class="w-5 h-5 rounded-full" alt="BTC"/>
-<span class="text-sm font-bold">Bitcoin</span>
+<div class="relative rounded-2xl overflow-hidden group card-hover">
+<img src="accuracy/btc.png" alt="슈팅스타 지표 비트코인 매매 시그널 적중 차트" width="960" height="540" class="w-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
+<div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/60 to-transparent">
+<div class="flex items-center gap-3">
+<img src="assets/images/logos/btc.png" class="w-7 h-7 rounded-full" width="28" height="28" alt="비트코인 로고"/>
+<span class="text-base font-bold">Bitcoin</span>
 <span class="text-xs text-[#B8860B] ml-auto font-data">PERPETUAL</span>
 </div>
 </div>
 </div>
 <!-- ETH -->
-<div class="relative rounded-lg md:rounded-xl overflow-hidden group card-hover">
-<img src="accuracy/eth.png" alt="슈팅스타 지표 이더리움 매매 시그널 적중 차트" width="480" height="270" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
-<div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0c0c0e] to-transparent">
-<div class="flex items-center gap-2">
-<img src="assets/images/logos/eth.png" class="w-5 h-5 rounded-full" alt="ETH"/>
-<span class="text-sm font-bold">Ethereum</span>
+<div class="relative rounded-2xl overflow-hidden group card-hover">
+<img src="accuracy/eth.png" alt="슈팅스타 지표 이더리움 매매 시그널 적중 차트" width="960" height="540" class="w-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
+<div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/60 to-transparent">
+<div class="flex items-center gap-3">
+<img src="assets/images/logos/eth.png" class="w-7 h-7 rounded-full" width="28" height="28" alt="이더리움 로고"/>
+<span class="text-base font-bold">Ethereum</span>
 <span class="text-xs text-[#B8860B] ml-auto font-data">4H</span>
 </div>
 </div>
 </div>
 <!-- Gold -->
-<div class="relative rounded-lg md:rounded-xl overflow-hidden group card-hover">
-<img src="accuracy/gold.png" alt="슈팅스타 지표 금 XAU 매매 시그널 적중 차트" width="480" height="270" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
-<div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0c0c0e] to-transparent">
-<div class="flex items-center gap-2">
-<img src="assets/images/logos/gold.png" class="w-5 h-5 rounded-full" alt="Gold"/>
-<span class="text-sm font-bold">Gold (XAU)</span>
+<div class="relative rounded-2xl overflow-hidden group card-hover">
+<img src="accuracy/gold.png" alt="슈팅스타 지표 금 XAU 매매 시그널 적중 차트" width="960" height="540" class="w-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
+<div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/60 to-transparent">
+<div class="flex items-center gap-3">
+<img src="assets/images/logos/gold.jpg" class="w-7 h-7 rounded-full" width="28" height="28" alt="금 XAU 로고"/>
+<span class="text-base font-bold">Gold (XAU)</span>
 <span class="text-xs text-[#B8860B] ml-auto font-data">1D</span>
 </div>
 </div>
 </div>
 <!-- Tesla -->
-<div class="relative rounded-lg md:rounded-xl overflow-hidden group card-hover">
-<img src="accuracy/tsla.png" alt="슈팅스타 지표 테슬라 TSLA 매매 시그널 적중 차트" width="480" height="270" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
-<div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0c0c0e] to-transparent">
-<div class="flex items-center gap-2">
-<img src="assets/images/logos/tsla.png" class="w-5 h-5 rounded-full" alt="TSLA"/>
-<span class="text-sm font-bold">Tesla</span>
+<div class="relative rounded-2xl overflow-hidden group card-hover">
+<img src="accuracy/tsla.png" alt="슈팅스타 지표 테슬라 TSLA 매매 시그널 적중 차트" width="960" height="540" class="w-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
+<div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/60 to-transparent">
+<div class="flex items-center gap-3">
+<img src="assets/images/logos/tsla.jpg" class="w-7 h-7 rounded-full" width="28" height="28" alt="테슬라 로고"/>
+<span class="text-base font-bold">Tesla</span>
 <span class="text-xs text-[#B8860B] ml-auto font-data">1D</span>
 </div>
 </div>
 </div>
 <!-- NVIDIA -->
-<div class="relative rounded-lg md:rounded-xl overflow-hidden group card-hover">
-<img src="accuracy/nvda.png" alt="슈팅스타 지표 엔비디아 NVDA 매매 시그널 적중 차트" width="480" height="270" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
-<div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0c0c0e] to-transparent">
-<div class="flex items-center gap-2">
-<img src="assets/images/logos/nvda.png" class="w-5 h-5 rounded-full" alt="NVDA"/>
-<span class="text-sm font-bold">NVIDIA</span>
+<div class="relative rounded-2xl overflow-hidden group card-hover">
+<img src="accuracy/nvda.png" alt="슈팅스타 지표 엔비디아 NVDA 매매 시그널 적중 차트" width="960" height="540" class="w-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
+<div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/60 to-transparent">
+<div class="flex items-center gap-3">
+<img src="assets/images/logos/nvda.jpg" class="w-7 h-7 rounded-full" width="28" height="28" alt="엔비디아 로고"/>
+<span class="text-base font-bold">NVIDIA</span>
 <span class="text-xs text-[#B8860B] ml-auto font-data">1D</span>
 </div>
 </div>
 </div>
 <!-- Samsung -->
-<div class="relative rounded-lg md:rounded-xl overflow-hidden group card-hover">
-<img src="accuracy/samsung.png" alt="슈팅스타 지표 삼성전자 매매 시그널 적중 차트" width="480" height="270" class="w-full aspect-video object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
-<div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#0c0c0e] to-transparent">
-<div class="flex items-center gap-2">
-<img src="assets/images/logos/samsung.png" class="w-5 h-5 rounded-full" alt="Samsung"/>
-<span class="text-sm font-bold">Samsung</span>
+<div class="relative rounded-2xl overflow-hidden group card-hover">
+<img src="accuracy/samsung.png" alt="슈팅스타 지표 삼성전자 매매 시그널 적중 차트" width="960" height="540" class="w-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
+<div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/60 to-transparent">
+<div class="flex items-center gap-3">
+<img src="assets/images/logos/samsung.jpg" class="w-7 h-7 rounded-full" width="28" height="28" alt="삼성전자 로고"/>
+<span class="text-base font-bold">Samsung</span>
 <span class="text-xs text-[#B8860B] ml-auto font-data">1D</span>
 </div>
 </div>
@@ -755,18 +801,18 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 <div class="absolute inset-0 z-[1]" style="background: rgba(12,12,14,0.65);"></div>
 <div class="absolute inset-0 z-[2]" style="background: linear-gradient(to bottom, #0c0c0e 0%, transparent 15%, transparent 85%, #0c0c0e 100%);"></div>
 <div class="relative z-[3] max-w-[1440px] mx-auto px-6 md:px-12 text-center">
-<h2 class="text-2xl font-bold text-on-surface-variant mb-8 uppercase tracking-[0.3em] typewriter-target" data-text="실전 수익 증명">실전 수익 증명</h2>
+<h2 class="text-2xl font-bold text-on-surface-variant mb-8 uppercase tracking-[0.3em] typewriter-target" data-text="성능은 결과로 증명합니다">성능은 결과로 증명합니다</h2>
 <div class="inline-flex items-center gap-2 bg-[#B8860B]/10 border border-[#B8860B]/20 rounded-full px-4 py-2 mb-6">
 <span class="text-xs font-bold tracking-widest uppercase text-[#B8860B]">3월 27일 ~ 31일 · 단 5일간 달성</span>
 </div>
 <div class="flex items-center justify-center gap-6 mb-4">
-<div class="w-20 h-20 rounded-full overflow-hidden ring-2 ring-[#B8860B] ring-offset-2 ring-offset-[#0e0e10]" style="box-shadow: 0 0 25px rgba(184,134,11,0.5), 0 0 50px rgba(184,134,11,0.2), 0 0 80px rgba(184,134,11,0.1);">
-<img src="assets/images/cowarrr.jpg" alt="@cowarrr" class="w-full h-full object-cover"/>
-</div>
-<div class="text-left">
-<div class="text-sm font-bold text-[#B8860B] uppercase tracking-widest mb-1">@cowarrr</div>
-<div class="text-xs text-on-surface-variant">슈팅스타 지표 설계자</div>
-</div>
+<a href="https://www.instagram.com/cowarrr" target="_blank" rel="noopener noreferrer" class="w-20 h-20 rounded-full overflow-hidden ring-2 ring-[#B8860B] ring-offset-2 ring-offset-[#0e0e10] block hover:ring-4 transition-all" style="box-shadow: 0 0 25px rgba(184,134,11,0.5), 0 0 50px rgba(184,134,11,0.2), 0 0 80px rgba(184,134,11,0.1);">
+<img src="assets/images/cowarrr.jpg" alt="코월 @cowarrr 인스타그램 프로필" width="80" height="80" class="w-full h-full object-cover"/>
+</a>
+<a href="https://www.instagram.com/cowarrr" target="_blank" rel="noopener noreferrer" class="text-left hover:opacity-80 transition-opacity">
+<div class="text-lg md:text-xl font-bold text-[#B8860B] uppercase tracking-widest mb-1">@cowarrr</div>
+<div class="text-sm md:text-base text-on-surface-variant">슈팅스타 지표 설계자</div>
+</a>
 </div>
 <div class="text-7xl md:text-9xl font-black text-primary-container tracking-tighter mb-2 tabular-nums font-data gold-text-glow" id="profit-counter">
                     $0
@@ -817,11 +863,11 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 <ul class="space-y-4 mb-12 flex-grow">
 <li class="flex items-center gap-3 text-on-surface-variant">
 <span class="material-symbols-outlined text-primary-container text-sm">check_circle</span>
-                            기본 슈팅스타 지표
+                            차트 분석 PDF 교육자료
                         </li>
 <li class="flex items-center gap-3 text-on-surface-variant">
 <span class="material-symbols-outlined text-primary-container text-sm">check_circle</span>
-                            크립토 전용 (BTC, ETH)
+                            기초 기술적 분석 영상 강의
                         </li>
 <li class="flex items-center gap-3 text-on-surface-variant">
 <span class="material-symbols-outlined text-primary-container text-sm">check_circle</span>
@@ -829,7 +875,7 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
                         </li>
 <li class="flex items-center gap-3 text-on-surface-variant">
 <span class="material-symbols-outlined text-primary-container text-sm">check_circle</span>
-                            일반 업데이트
+                            교육자료 정기 업데이트
                         </li>
 </ul>
 <button class="w-full py-4 rounded-lg bg-surface-container-highest text-on-surface font-bold hover:bg-surface-bright transition-colors">
@@ -853,23 +899,23 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 <ul class="grid grid-cols-1 gap-y-4 mb-12 flex-grow">
 <li class="flex items-center gap-3 text-on-surface font-medium">
 <span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                            슈팅스타 + 프리미엄 전체
+                            슈팅스타 지표 제공
                         </li>
 <li class="flex items-center gap-3 text-on-surface font-medium">
 <span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                            전체 9개 시장 지원
+                            교육자료 우선 제공
+                        </li>
+<li class="flex items-center gap-3 text-on-surface font-medium">
+<span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            신규 지표 최우선 공개
+                        </li>
+<li class="flex items-center gap-3 text-on-surface font-medium">
+<span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            지표 업데이트 최우선 진행
                         </li>
 <li class="flex items-center gap-3 text-on-surface font-medium">
 <span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
                             카톡/텔레그램 1:1 우선 지원
-                        </li>
-<li class="flex items-center gap-3 text-on-surface font-medium">
-<span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                            신규 지표 선공개 &amp; 백테스팅
-                        </li>
-<li class="flex items-center gap-3 text-on-surface font-medium">
-<span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                            VIP 커뮤니티 &amp; 무제한 알림
                         </li>
 </ul>
 <button class="w-full py-4 rounded-lg gold-gradient gold-glow text-on-primary font-bold hover:brightness-110 transition-all">
@@ -942,12 +988,12 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 </main>
 <!-- Footer -->
 <footer class="bg-[#0c0c0e] border-t border-white/5 py-12 w-full">
-<div class="flex flex-col md:flex-row justify-between items-center px-12 w-full gap-8">
-<div class="text-xl font-black text-[#B8860B] gold-text-glow">co's tes</div>
+<div class="flex flex-col items-center px-12 w-full gap-6 text-center">
+<img src="/assets/images/logo.png" alt="co'stes 로고" width="80" height="28" class="h-7 w-auto"/>
 <div class="flex flex-wrap justify-center gap-8 font-['Inter'] text-sm tracking-wide">
-<a class="text-gray-500 hover:text-white transition-colors" href="#">이용약관</a>
-<a class="text-gray-500 hover:text-white transition-colors" href="#">개인정보처리방침</a>
-<a class="text-gray-500 hover:text-white transition-colors" href="#">@cowarrr</a>
+<a class="text-gray-500 hover:text-white transition-colors" href="/terms.html">이용약관</a>
+<a class="text-gray-500 hover:text-white transition-colors" href="/privacy.html">개인정보처리방침</a>
+<a class="text-gray-500 hover:text-white transition-colors" href="https://www.instagram.com/cowarrr" target="_blank" rel="noopener noreferrer">@cowarrr</a>
 </div>
 <div class="text-gray-500 text-sm font-['Inter'] tracking-wide">
                 2025 co's tes. All rights reserved.
@@ -963,6 +1009,74 @@ ATR <span class="font-data text-[#B8860B]">3σ</span> 이탈 감지
 </div>
 </footer>
 <script>
+// Scroll progress bar
+const scrollProgress = document.getElementById('scroll-progress');
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = (scrollTop / docHeight) * 100;
+  scrollProgress.style.width = progress + '%';
+});
+
+// Mouse gold trail (desktop only)
+if (window.innerWidth > 768) {
+  const trails = [
+    document.getElementById('trail-1'),
+    document.getElementById('trail-2'),
+    document.getElementById('trail-3')
+  ];
+  let mouseX = 0, mouseY = 0;
+  const trailPositions = [{x:0,y:0},{x:0,y:0},{x:0,y:0}];
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    trails.forEach(t => t.style.opacity = '0.4');
+  });
+
+  let trailTimer;
+  document.addEventListener('mousemove', () => {
+    clearTimeout(trailTimer);
+    trailTimer = setTimeout(() => {
+      trails.forEach(t => t.style.opacity = '0');
+    }, 1000);
+  });
+
+  function animateTrails() {
+    trailPositions.forEach((pos, i) => {
+      const target = i === 0 ? {x: mouseX, y: mouseY} : trailPositions[i-1];
+      pos.x += (target.x - pos.x) * (0.15 - i * 0.03);
+      pos.y += (target.y - pos.y) * (0.15 - i * 0.03);
+      trails[i].style.left = pos.x + 'px';
+      trails[i].style.top = pos.y + 'px';
+      trails[i].style.width = (6 - i * 1.5) + 'px';
+      trails[i].style.height = (6 - i * 1.5) + 'px';
+      trails[i].style.opacity = String(0.4 - i * 0.1);
+    });
+    requestAnimationFrame(animateTrails);
+  }
+  animateTrails();
+}
+
+// Section reveal on scroll
+document.querySelectorAll('#features, #performance, #pricing, #faq, [class*="market-ticker"] + section, [class*="Algorithm"] + section').forEach(sec => {
+  sec.classList.add('reveal');
+});
+// Also reveal section headers and card grids
+document.querySelectorAll('.text-center.mb-16, .text-center.mb-20, .flex.flex-col.gap-8, .grid.md\\:grid-cols-2').forEach(el => {
+  if (!el.closest('nav') && !el.closest('.market-ticker') && !el.closest('.min-h-\\[85vh\\]')) {
+    el.classList.add('reveal');
+  }
+});
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('revealed');
+    }
+  });
+}, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
 // Lightbox
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightbox-img');
@@ -1166,10 +1280,10 @@ document.querySelectorAll('.space-y-4 button').forEach(btn => {
 
     if (!answer) {
       const answers = {
-        '슈팅스타 지표는 어떤 시장에 적용 가능한가요?': 'Standard 플랜은 크립토(BTC, ETH)에 적용 가능하며, Pro 플랜은 비트코인, 이더리움, 테슬라, 엔비디아, 삼성전자, SK하이닉스, 금, 원유, 환율 차트 등 총 9개 시장에서 사용 가능합니다.',
+        '슈팅스타 지표는 어떤 시장에 적용 가능한가요?': 'TradingView에서 차트가 존재하는 모든 시장에 적용 가능합니다. 비트코인, 이더리움 등 크립토는 물론 미국 주식, 국내 주식, 금, 원유, 환율 등 차트가 있는 곳이라면 어디서든 슈팅스타를 사용할 수 있습니다.',
         'TradingView에 어떻게 적용하나요?': '구독 완료 후 TradingView 초대 링크를 발송해드립니다. 초대를 수락하시면 지표 검색에서 슈팅스타 지표를 추가하실 수 있습니다. 상세한 설치 가이드도 함께 제공됩니다.',
         '환불이 가능한가요?': '첫 구독일로부터 7일 이내에 환불 요청 시 전액 환불해드립니다. Lifetime 구매의 경우에도 7일 이내 환불이 가능합니다.',
-        'Standard와 Pro의 차이는 무엇인가요?': 'Standard는 크립토(BTC, ETH) 시장에서 기본 슈팅스타 지표를 사용할 수 있습니다. Pro는 전체 9개 시장, 프리미엄 지표, 백테스팅, VIP 커뮤니티, 1:1 우선 지원이 포함됩니다.',
+        'Standard와 Pro의 차이는 무엇인가요?': 'Standard는 차트 분석 PDF 교육자료와 기초 기술적 분석 영상 강의를 제공합니다. Pro는 슈팅스타 지표 제공, 교육자료 우선 제공, 신규 지표 최우선 공개, 지표 업데이트 최우선 진행, 1:1 우선 지원이 포함됩니다.',
         'Lifetime 구매 후 업데이트는 계속 받을 수 있나요?': '네, Lifetime 구매 시 평생 무료 업데이트를 제공합니다. 신규 지표 추가, 기능 개선 등 모든 업데이트를 우선적으로 받으실 수 있습니다.'
       };
       const questionText = this.querySelector('span:first-child').textContent;
