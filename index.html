@@ -12,12 +12,12 @@
 <link rel="canonical" href="https://costes-site.vercel.app/"/>
 
 <!-- SEO: description (60~80자 한글) -->
-<meta name="description" content="5일 만에 $520,000 수익을 실현한 슈팅스타 지표. 비트코인, 테슬라, 삼성전자 등 9개 시장 적용 가능. @cowarrr이 직접 설계한 기관급 TradingView 지표."/>
+<meta name="description" content="코월(@cowarrr)이 5일간 $520,000을 기록한 TradingView 보조지표, 슈팅스타. 과거 사례이며 향후 결과를 보장하지 않습니다."/>
 
 <!-- SEO: Open Graph (네이버 검색 결과 스니펫에도 반영) -->
 <meta property="og:type" content="website"/>
 <meta property="og:title" content="슈팅스타 트레이딩 지표 | co's tes"/>
-<meta property="og:description" content="5일 만에 $520,000 수익 실현. @cowarrr이 직접 설계한 기관급 TradingView 지표. BTC, ETH, TSLA, NVDA, 삼성전자 등 9개 시장 지원."/>
+<meta property="og:description" content="코월(@cowarrr)이 5일간 $520,000을 기록한 TradingView 보조지표, 슈팅스타. 과거 사례이며 향후 결과를 보장하지 않습니다."/>
 <meta property="og:image" content="https://costes-site.vercel.app/assets/images/hero-bg.webp"/>
 <meta property="og:url" content="https://costes-site.vercel.app/"/>
 
@@ -68,7 +68,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <style>
-        body { font-family: 'Pretendard Variable', 'Pretendard', 'Inter', sans-serif; background-color: #0c0c0e; color: #e5e1e4; -webkit-font-smoothing: antialiased; }
+        html { overflow-x: hidden; }
+        body { font-family: 'Pretendard Variable', 'Pretendard', 'Inter', sans-serif; background-color: #0c0c0e; color: #e5e1e4; -webkit-font-smoothing: antialiased; overflow-x: hidden; word-break: keep-all; overflow-wrap: break-word; }
         .font-data { font-family: 'Space Grotesk', monospace; }
         .font-inter { font-family: 'Inter', sans-serif; }
         .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
@@ -248,6 +249,145 @@
             cursor: zoom-in;
         }
 
+        /* Ebook 3D Carousel */
+        .ebook-carousel-viewport {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            padding: 30px 0;
+        }
+        .ebook-carousel-track {
+            display: flex;
+            gap: 24px;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            padding: 0 40px;
+        }
+        .ebook-cover-card {
+            flex: 0 0 180px;
+            perspective: 800px;
+            cursor: pointer;
+        }
+        .ebook-cover-inner {
+            position: relative;
+            width: 180px;
+            height: 270px;
+            transform-style: preserve-3d;
+            transform: rotateY(-8deg);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow:
+                -6px 6px 20px rgba(0,0,0,0.6),
+                -2px 2px 8px rgba(0,0,0,0.4),
+                inset 0 0 0 1px rgba(184,134,11,0.08);
+        }
+        .ebook-cover-card:hover .ebook-cover-inner {
+            transform: rotateY(0deg) scale(1.06);
+            box-shadow:
+                0 12px 40px rgba(184,134,11,0.2),
+                0 4px 16px rgba(0,0,0,0.5);
+        }
+        .ebook-cover-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* Book spine effect */
+        .ebook-cover-inner::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to right, rgba(0,0,0,0.5), rgba(184,134,11,0.3), rgba(0,0,0,0.2));
+            z-index: 2;
+        }
+        /* Book page edge effect */
+        .ebook-cover-inner::after {
+            content: '';
+            position: absolute;
+            right: -3px;
+            top: 3px;
+            bottom: 3px;
+            width: 3px;
+            background: repeating-linear-gradient(
+                to bottom,
+                #d4c9a8 0px, #d4c9a8 1px,
+                #c4b898 1px, #c4b898 2px
+            );
+            border-radius: 0 2px 2px 0;
+            z-index: 1;
+            opacity: 0.6;
+        }
+        .ebook-cover-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            padding: 24px 10px 10px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 3;
+        }
+        .ebook-cover-card:hover .ebook-cover-label {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .ebook-carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(184,134,11,0.15);
+            border: 1px solid rgba(184,134,11,0.3);
+            color: #B8860B;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s;
+        }
+        .ebook-carousel-btn:hover {
+            background: rgba(184,134,11,0.3);
+            border-color: #B8860B;
+        }
+        .ebook-carousel-btn.prev { left: 0; }
+        .ebook-carousel-btn.next { right: 0; }
+
+        /* Roadmap lightbox */
+        .roadmap-lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            background: rgba(0,0,0,0.92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+            backdrop-filter: blur(8px);
+        }
+        .roadmap-lightbox.active { display: flex; }
+        .roadmap-lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .ebook-cover-card { flex: 0 0 140px; }
+            .ebook-cover-inner { width: 140px; height: 210px; }
+            .ebook-carousel-track { gap: 16px; padding: 0 20px; }
+        }
+
         /* Scroll fade-in animation */
         .fade-up {
             opacity: 0;
@@ -403,9 +543,20 @@
 <a class="nav-link text-gray-400 hover:text-white transition-colors" href="#features">지표소개</a>
 <a class="nav-link text-gray-400 hover:text-white transition-colors" href="#performance">실적</a>
 <a class="nav-link text-gray-400 hover:text-white transition-colors" href="#pricing">요금제</a>
+<a class="text-gray-400 hover:text-white transition-colors" href="/ebook.html">전자책</a>
 <a class="nav-link text-gray-400 hover:text-white transition-colors" href="#faq">FAQ</a>
 <a class="text-gray-400 hover:text-white transition-colors" href="/guide.html">설치 가이드</a>
 <a class="text-gray-400 hover:text-white transition-colors" href="/about.html">코월 소개</a>
+<div class="relative group">
+<span class="text-gray-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1">블로그 <span class="material-symbols-outlined text-sm">expand_more</span></span>
+<div class="absolute top-full left-1/2 -translate-x-1/2 pt-2 hidden group-hover:block">
+<div class="bg-[#1a1a1e] border border-[#B8860B]/20 rounded-lg shadow-xl shadow-black/50 py-2 min-w-[200px]">
+<a class="block px-5 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-[#B8860B]/10 transition-colors" href="/blog/tradingview-indicator-guide.html">보조지표 선택법</a>
+<a class="block px-5 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-[#B8860B]/10 transition-colors" href="/blog/shooting-star-candle.html">슈팅스타 캔들 패턴</a>
+<a class="block px-5 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-[#B8860B]/10 transition-colors" href="/blog/bitcoin-trading-signal.html">비트코인 매매 시그널</a>
+</div>
+</div>
+</div>
 </div>
 <div class="absolute right-8 flex items-center gap-4">
 <span class="material-symbols-outlined text-[#B8860B] cursor-pointer active:scale-95 transition-transform hidden md:block" data-icon="account_circle">account_circle</span>
@@ -430,6 +581,7 @@
 <a class="mobile-nav-link text-2xl font-bold text-gray-300 hover:text-[#B8860B] transition-colors" href="#features">지표소개</a>
 <a class="mobile-nav-link text-2xl font-bold text-gray-300 hover:text-[#B8860B] transition-colors" href="#performance">실적</a>
 <a class="mobile-nav-link text-2xl font-bold text-gray-300 hover:text-[#B8860B] transition-colors" href="#pricing">요금제</a>
+<a class="mobile-nav-link text-2xl font-bold text-gray-300 hover:text-[#B8860B] transition-colors" href="/ebook.html">전자책</a>
 <a class="mobile-nav-link text-2xl font-bold text-gray-300 hover:text-[#B8860B] transition-colors" href="#faq">FAQ</a>
 <div class="w-12 border-t border-[#B8860B]/20"></div>
 <a class="text-xl font-bold text-gray-300 hover:text-[#B8860B] transition-colors" href="/guide.html">설치 가이드</a>
@@ -457,13 +609,19 @@
 <span class="text-[#FFD700] gold-text-glow typewriter-target" data-text="왜 이렇게 잘하세요?" data-delay="900">왜 이렇게 잘하세요?</span>
 </h1>
 <p class="text-on-surface-variant text-base sm:text-lg md:text-xl mb-6 font-medium max-w-2xl px-4" style="line-height: 1.8;">
-5일 만에 <span class="text-[#FFD700] font-bold font-data">$520,000</span><span class="text-[#FFD700]">(약 7억 5천)</span><br/>— 코월의 '슈팅스타'가 증명한 시그널
+5일 만에 <span class="text-[#FFD700] font-bold font-data">$520,000</span><span class="text-[#FFD700]">(약 7억 5천)</span><br/>코월의 '슈팅스타'가 보여주는 시그널
 </p>
 <div class="mb-12"><div class="flex items-center justify-center gap-2 mb-3"><img src="/assets/images/symbol.png" alt="코월 심볼" width="40" height="45" class="h-10 w-auto"/><img src="/assets/images/logo.png" alt="co'stes 로고" width="140" height="50" class="h-10 w-auto"/></div><p class="text-[#B0B0B8] text-sm md:text-base font-semibold" style="line-height: 1.6;">코월(cowarrr)이 만들어주는 너의(tes) 것.</p></div>
 <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
 <button class="gold-gradient cta-pulse text-[#0c0c0e] font-bold px-8 sm:px-10 py-4 rounded-lg text-base sm:text-lg hover:brightness-110 active:scale-95 transition-all w-full sm:w-auto max-w-[280px]">
 슈팅스타로 시작하기
 </button>
+<a href="/ebook.html" class="border border-[#B8860B]/50 text-[#B8860B] font-bold px-8 sm:px-10 py-4 rounded-lg text-base sm:text-lg hover:bg-[#B8860B]/10 active:scale-95 transition-all w-full sm:w-auto max-w-[280px] text-center flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">menu_book</span>
+전자책 57권 수령하기
+</a>
+</div>
+<div class="mt-4">
 <a href="/guide.html" class="text-[#B8860B] font-medium hover:text-white transition-colors flex items-center gap-1">
 설치 가이드 <span class="material-symbols-outlined text-sm">arrow_forward</span>
 </a>
@@ -489,7 +647,7 @@
 <div class="text-center mb-16">
 <span class="text-xs font-bold tracking-[0.3em] uppercase text-[#B8860B] mb-4 block">Shooting Star Indicator</span>
 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4 typewriter-target" data-text="슈팅스타 지표">슈팅스타 <span class="text-transparent bg-clip-text gold-gradient gold-text-glow">지표</span></h2>
-<p class="text-on-surface-variant text-lg">코월이 직접 설계한 기관급 매매 보조 도구</p>
+<p class="text-on-surface-variant text-lg">코월이 자체 설계한 TradingView 차트 분석 보조지표</p>
 </div>
 <div class="grid lg:grid-cols-3 gap-6 mb-16">
 <!-- Card 1: 저위험 진입 -->
@@ -501,10 +659,10 @@
 <div class="w-14 h-14 rounded-xl bg-[#B8860B]/10 flex items-center justify-center mb-6 text-[#B8860B] group-hover:bg-[#B8860B] group-hover:text-[#0c0c0e] transition-all duration-300">
 <span class="material-symbols-outlined text-2xl" data-icon="shield">shield</span>
 </div>
-<h3 class="text-xl font-bold mb-2"><span class="text-[#B8860B]">저위험</span> 진입</h3>
-<p class="text-[#6B6B75] text-xs uppercase tracking-widest mb-4 font-data">Low Risk Entry</p>
+<h3 class="text-xl font-bold mb-2"><span class="text-[#B8860B]">진입</span> 참고 구간</h3>
+<p class="text-[#6B6B75] text-xs uppercase tracking-widest mb-4 font-data">Entry Signal</p>
 <p class="text-on-surface-variant leading-relaxed text-sm">
-알고리즘 기반의 정교한 필터링으로<br/><span class="text-white font-medium">리스크를 최소화</span>한 최적의 진입 시점을 포착합니다.<br/>불확실한 시장에서도 흔들리지 않는 시그널.
+알고리즘 기반의 필터링으로<br/>진입 판단에 참고할 수 있는 구간을 표시합니다.
 </p>
 </div>
 </div>
@@ -517,10 +675,10 @@
 <div class="w-14 h-14 rounded-xl bg-[#B8860B]/10 flex items-center justify-center mb-6 text-[#B8860B] group-hover:bg-[#B8860B] group-hover:text-[#0c0c0e] transition-all duration-300">
 <span class="material-symbols-outlined text-2xl" data-icon="trending_up">trending_up</span>
 </div>
-<h3 class="text-xl font-bold mb-2"><span class="text-[#B8860B]">고수익</span> 청산</h3>
-<p class="text-[#6B6B75] text-xs uppercase tracking-widest mb-4 font-data">Maximum Profit Exit</p>
+<h3 class="text-xl font-bold mb-2"><span class="text-[#B8860B]">청산</span> 참고 구간</h3>
+<p class="text-[#6B6B75] text-xs uppercase tracking-widest mb-4 font-data">Exit Signal</p>
 <p class="text-on-surface-variant leading-relaxed text-sm">
-동적 익절 시스템이 추세의 끝을 예측하여<br/><span class="text-white font-medium">수익을 극대화</span>합니다.<br/>되돌림 발생 전 안전한 엑싯 타이밍을 제공합니다.
+추세 변화 조건을 분석하여<br/>청산 판단에 참고할 수 있는 구간을 표시합니다.
 </p>
 </div>
 </div>
@@ -533,10 +691,10 @@
 <div class="w-14 h-14 rounded-xl bg-[#B8860B]/10 flex items-center justify-center mb-6 text-[#B8860B] group-hover:bg-[#B8860B] group-hover:text-[#0c0c0e] transition-all duration-300">
 <span class="material-symbols-outlined text-2xl" data-icon="my_location">my_location</span>
 </div>
-<h3 class="text-xl font-bold mb-2"><span class="text-[#B8860B]">정밀</span> 타이밍</h3>
-<p class="text-[#6B6B75] text-xs uppercase tracking-widest mb-4 font-data">Precision Timing</p>
+<h3 class="text-xl font-bold mb-2"><span class="text-[#B8860B]">타이밍</span> 참고 신호</h3>
+<p class="text-[#6B6B75] text-xs uppercase tracking-widest mb-4 font-data">Timing Signal</p>
 <p class="text-on-surface-variant leading-relaxed text-sm">
-기관들의 주문 블록과 체결 강도를 실시간 분석하여<br/>소매 트레이더들이 놓치기 쉬운<br/><span class="text-white font-medium">찰나의 변곡점</span>을 잡아냅니다.
+거래량과 변동성 조건을 분석하여<br/><span class="text-white font-medium">변곡점</span> 판단에 참고할 수 있는 신호를 표시합니다.
 </p>
 </div>
 </div>
@@ -563,37 +721,37 @@
 <div class="relative z-[3] max-w-[1200px] mx-auto px-6 md:px-12">
 <!-- Section Header -->
 <div class="text-center mb-20">
-<span class="text-xs font-bold tracking-[0.3em] uppercase text-[#B8860B] mb-4 block">Algorithm Architecture</span>
-<h2 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 typewriter-target" data-text="슈팅스타가 뭔가요?">슈팅스타가 <span class="text-transparent bg-clip-text gold-gradient gold-text-glow">뭔가요?</span></h2>
-<p class="text-on-surface-variant text-lg max-w-2xl mx-auto">독자적인 알고리즘이 시장의 노이즈를 걸러내고,<br/>진짜 시그널만 당신에게 전달합니다.</p>
+<span class="text-xs font-bold tracking-[0.15em] md:tracking-[0.3em] uppercase text-[#B8860B] mb-4 block">Algorithm Architecture</span>
+<h2 class="text-2xl sm:text-3xl md:text-5xl font-extrabold tracking-tight mb-4 px-4 typewriter-target" data-text="슈팅스타가 뭔가요?">슈팅스타가 <span class="text-transparent bg-clip-text gold-gradient gold-text-glow">뭔가요?</span></h2>
+<p class="text-on-surface-variant text-base sm:text-lg max-w-2xl mx-auto px-4">독자적인 알고리즘이 시장의 노이즈를 걸러내고,<br/>진짜 시그널만 당신에게 전달합니다.</p>
 <!-- Signal Grade Bar -->
-<div class="mt-10 flex justify-center items-center gap-4 md:gap-8 flex-wrap">
-<div class="flex items-center gap-2">
+<div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-2xl mx-auto">
+<div class="flex items-center justify-center gap-2">
 <span class="text-xl">♢</span>
 <div class="text-left">
 <div class="text-xs font-bold text-on-surface-variant">Grade Ⅰ</div>
 <div class="text-[10px] text-[#6B6B75]">단일 모듈 감지</div>
 </div>
 </div>
-<div class="flex items-center gap-2">
+<div class="flex items-center justify-center gap-2">
 <span class="text-xl">✧</span>
 <div class="text-left">
 <div class="text-xs font-bold text-on-surface-variant">Grade Ⅱ</div>
 <div class="text-[10px] text-[#6B6B75]">2개 모듈 교차</div>
 </div>
 </div>
-<div class="flex items-center gap-2">
+<div class="flex items-center justify-center gap-2">
 <span class="text-xl">✦</span>
 <div class="text-left">
 <div class="text-xs font-bold text-[#B8860B]">Grade Ⅲ</div>
 <div class="text-[10px] text-[#6B6B75]">3개 이상 교차</div>
 </div>
 </div>
-<div class="flex items-center gap-2">
+<div class="flex items-center justify-center gap-2">
 <span class="text-xl">☄️</span>
 <div class="text-left">
 <div class="text-xs font-bold text-[#B8860B] gold-text-glow">Grade Ⅳ</div>
-<div class="text-[10px] text-[#6B6B75]">최고 확률 시그널</div>
+<div class="text-[10px] text-[#6B6B75]">조건 중첩 시그널</div>
 </div>
 </div>
 </div>
@@ -665,11 +823,11 @@
 <div class="w-10 h-10 rounded-lg bg-[#B8860B]/10 flex items-center justify-center text-[#B8860B] group-hover:bg-[#B8860B] group-hover:text-[#0c0c0e] transition-all">
 <span class="material-symbols-outlined text-xl">water_drop</span>
 </div>
-<h3 class="font-bold text-lg">스마트 머니 추적</h3>
+<h3 class="font-bold text-lg">자금 흐름 분석</h3>
 </div>
-<p class="text-on-surface-variant text-sm leading-relaxed mb-3">큰 손들의 자금이 어디로 흘러가는지 추적합니다. 개인 투자자가 보지 못하는 자금 흐름의 전환점을 잡아냅니다.</p>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-3">거래량과 체결 데이터를 기반으로 자금 흐름의 변화를 감지합니다.</p>
 <div class="flex items-center gap-2 text-xs text-[#6B6B75]">
-<span class="font-data text-[#B8860B]">자금 흐름</span> 전환 감지
+<span class="font-data text-[#B8860B]">자금 흐름</span> 변화 감지
 </div>
 </div>
 </div>
@@ -683,11 +841,11 @@
 <div class="w-10 h-10 rounded-lg bg-[#B8860B]/10 flex items-center justify-center text-[#B8860B] group-hover:bg-[#B8860B] group-hover:text-[#0c0c0e] transition-all">
 <span class="material-symbols-outlined text-xl">swap_vert</span>
 </div>
-<h3 class="font-bold text-lg">기관의 함정 역이용</h3>
+<h3 class="font-bold text-lg">페이크 브레이크아웃 필터</h3>
 </div>
-<p class="text-on-surface-variant text-sm leading-relaxed mb-3">기관이 개인 투자자를 털기 위해 만든 가짜 돌파를 역으로 이용합니다. 함정이 끝나는 바로 그 순간에 진입합니다.</p>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-3">돌파로 보이는 움직임이 실제 추세 전환인지, 유동성 수집 후 되돌림인지를 구분합니다. 거짓 돌파 패턴이 감지되면 해당 구간을 별도로 표시합니다.</p>
 <div class="flex items-center gap-2 text-xs text-[#6B6B75]">
-<span class="font-data text-[#B8860B]">역발상</span> 진입 로직
+<span class="font-data text-[#B8860B]">패턴</span> 감지 로직
 </div>
 </div>
 </div>
@@ -703,7 +861,7 @@
 </div>
 <h3 class="font-bold text-lg">노이즈 필터링 시스템</h3>
 </div>
-<p class="text-on-surface-variant text-sm leading-relaxed mb-3">추세를 거스르는 거짓 시그널을 자동으로 걸러냅니다. 흐름이 바뀌는 순간에만 정확히 발동하는 지능형 필터입니다.</p>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-3">추세에 반하는 노이즈를 필터링합니다. 복수 조건이 동시에 충족될 때만 작동하는 멀티레이어 필터입니다.</p>
 <div class="flex items-center gap-2 text-xs text-[#6B6B75]">
 거짓 시그널 <span class="font-data text-[#B8860B]">자동 차단</span>
 </div>
@@ -723,11 +881,12 @@
 <div class="relative z-[3] px-6 md:px-12 max-w-[1440px] mx-auto">
 <div class="text-center mb-16">
 <span class="text-xs font-bold tracking-[0.3em] uppercase text-[#B8860B] mb-4 block">Proven Accuracy</span>
-<h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4 typewriter-target" data-text="종목별 적중 예시">종목별 적중 예시</h2>
-<p class="text-on-surface-variant text-lg">슈팅스타 시그널이 실제 시장에서 포착한 진입/청산 포인트</p>
+<h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4 typewriter-target" data-text="종목별 차트 사례">종목별 차트 사례</h2>
+<p class="text-on-surface-variant text-lg">슈팅스타 시그널이 과거 차트에서 표시한 참고 구간</p>
 </div>
 <div class="flex flex-col gap-8 max-w-4xl mx-auto">
 <!-- BTC -->
+<div>
 <div class="relative rounded-2xl overflow-hidden group card-hover">
 <img src="accuracy/btc.png" alt="슈팅스타 지표 비트코인 매매 시그널 적중 차트" width="960" height="540" class="w-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
 <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/60 to-transparent">
@@ -738,7 +897,10 @@
 </div>
 </div>
 </div>
+<p class="text-sm font-bold text-on-surface-variant mt-3 text-center">롱 조건 충족 이후 약 11.28% 상승<br/>숏 조건 충족 이후 약 5.7% 하락</p>
+</div>
 <!-- ETH -->
+<div>
 <div class="relative rounded-2xl overflow-hidden group card-hover">
 <img src="accuracy/eth.png" alt="슈팅스타 지표 이더리움 매매 시그널 적중 차트" width="960" height="540" class="w-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
 <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/60 to-transparent">
@@ -749,7 +911,10 @@
 </div>
 </div>
 </div>
+<p class="text-sm font-bold text-on-surface-variant mt-3 text-center">롱 조건 충족 이후 약 10.5% 상승<br/>숏 조건 충족 이후 약 37.18% 하락</p>
+</div>
 <!-- Gold -->
+<div>
 <div class="relative rounded-2xl overflow-hidden group card-hover">
 <img src="accuracy/gold.png" alt="슈팅스타 지표 금 XAU 매매 시그널 적중 차트" width="960" height="540" class="w-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
 <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/60 to-transparent">
@@ -760,7 +925,10 @@
 </div>
 </div>
 </div>
+<p class="text-sm font-bold text-on-surface-variant mt-3 text-center">숏 조건 충족 이후 약 4.96% 하락<br/>롱 조건 충족 이후 약 13.04% 상승</p>
+</div>
 <!-- Tesla -->
+<div>
 <div class="relative rounded-2xl overflow-hidden group card-hover">
 <img src="accuracy/tsla.png" alt="슈팅스타 지표 테슬라 TSLA 매매 시그널 적중 차트" width="960" height="540" class="w-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
 <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/60 to-transparent">
@@ -771,7 +939,10 @@
 </div>
 </div>
 </div>
+<p class="text-sm font-bold text-on-surface-variant mt-3 text-center">롱 조건 충족 이후 약 11.3% 상승<br/>숏 조건 충족 이후 약 47.96% 하락</p>
+</div>
 <!-- NVIDIA -->
+<div>
 <div class="relative rounded-2xl overflow-hidden group card-hover">
 <img src="accuracy/nvda.png" alt="슈팅스타 지표 엔비디아 NVDA 매매 시그널 적중 차트" width="960" height="540" class="w-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
 <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/60 to-transparent">
@@ -782,7 +953,10 @@
 </div>
 </div>
 </div>
+<p class="text-sm font-bold text-on-surface-variant mt-3 text-center">롱 조건 충족 이후 약 14.4% 상승<br/>숏 조건 충족 이후 약 8.94% 하락</p>
+</div>
 <!-- Samsung -->
+<div>
 <div class="relative rounded-2xl overflow-hidden group card-hover">
 <img src="accuracy/samsung.png" alt="슈팅스타 지표 삼성전자 매매 시그널 적중 차트" width="960" height="540" class="w-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500 zoomable"/>
 <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-[#0c0c0e] via-[#0c0c0e]/60 to-transparent">
@@ -793,6 +967,8 @@
 </div>
 </div>
 </div>
+<p class="text-sm font-bold text-on-surface-variant mt-3 text-center">숏 조건 충족 이후 약 12.95% 하락<br/>롱 조건 충족 이후 약 11.98% 상승</p>
+</div>
 </div>
 </div>
 </section>
@@ -802,9 +978,9 @@
 <div class="absolute inset-0 z-[1]" style="background: rgba(12,12,14,0.65);"></div>
 <div class="absolute inset-0 z-[2]" style="background: linear-gradient(to bottom, #0c0c0e 0%, transparent 15%, transparent 85%, #0c0c0e 100%);"></div>
 <div class="relative z-[3] max-w-[1440px] mx-auto px-6 md:px-12 text-center">
-<h2 class="text-2xl font-bold text-on-surface-variant mb-8 uppercase tracking-[0.3em] typewriter-target" data-text="성능은 결과로 증명합니다">성능은 결과로 증명합니다</h2>
+<h2 class="text-2xl font-bold text-on-surface-variant mb-8 uppercase tracking-[0.3em] typewriter-target" data-text="Trading Record">Trading Record</h2>
 <div class="inline-flex items-center gap-2 bg-[#B8860B]/10 border border-[#B8860B]/20 rounded-full px-4 py-2 mb-6">
-<span class="text-xs font-bold tracking-widest uppercase text-[#B8860B]">3월 27일 ~ 31일 · 단 5일간 달성</span>
+<span class="text-xs font-bold tracking-widest uppercase text-[#B8860B]">3월 27일 ~ 31일 · 5일간 기록</span>
 </div>
 <div class="flex items-center justify-center gap-6 mb-4">
 <a href="https://www.instagram.com/cowarrr" target="_blank" rel="noopener noreferrer" class="w-20 h-20 rounded-full overflow-hidden ring-2 ring-[#B8860B] ring-offset-2 ring-offset-[#0e0e10] block hover:ring-4 transition-all" style="box-shadow: 0 0 25px rgba(184,134,11,0.5), 0 0 50px rgba(184,134,11,0.2), 0 0 80px rgba(184,134,11,0.1);">
@@ -815,20 +991,24 @@
 <div class="text-sm md:text-base text-on-surface-variant">슈팅스타 지표 설계자</div>
 </a>
 </div>
-<div class="text-7xl md:text-9xl font-black text-primary-container tracking-tighter mb-2 tabular-nums font-data gold-text-glow" id="profit-counter">
+<div class="text-5xl sm:text-7xl md:text-9xl font-black text-primary-container tracking-tighter mb-2 tabular-nums font-data gold-text-glow whitespace-nowrap" id="profit-counter">
                     $0
                 </div>
 <div class="text-2xl md:text-3xl font-bold text-[#6B6B75] mb-4 font-data" id="krw-counter">≈ ₩0</div>
-<p class="text-xl text-on-surface-variant mb-16">5일간 실전 트레이딩 수익</p>
-<div class="grid grid-cols-3 gap-2 md:gap-8 mb-16">
+<p class="text-xl text-on-surface-variant mb-4">5일간 트레이딩 기록</p>
+<p class="text-xs text-[#6B6B75] mb-16">과거 트레이딩 기록이며, 향후 결과를 보장하지 않습니다.<br/>시장 상황에 따라 원금손실이 발생할 수 있습니다.</p>
+<div class="flex flex-col gap-4 max-w-[80%] mx-auto mb-16">
 <div class="rounded-xl md:rounded-2xl bg-surface-container overflow-hidden">
-<img alt="코월 @cowarrr BTCUSDT 실전 수익 내역 175K 달러" width="360" height="640" class="w-full h-auto object-contain zoomable" src="profit-proof/IMG_1983.jpg"/>
+<img alt="코월 @cowarrr 트레이딩 기록 화면 1" width="360" height="640" class="w-full h-auto object-contain zoomable" src="profit-proof/IMG_1983.jpg"/>
 </div>
 <div class="rounded-xl md:rounded-2xl bg-surface-container overflow-hidden">
-<img alt="코월 @cowarrr BTCUSDT 실전 수익 내역 30K 달러 추가 포지션" width="360" height="640" class="w-full h-auto object-contain zoomable" src="profit-proof/IMG_1984.jpg"/>
+<img alt="코월 @cowarrr 트레이딩 기록 화면 2" width="360" height="640" class="w-full h-auto object-contain zoomable" src="profit-proof/IMG_1984.jpg"/>
 </div>
 <div class="rounded-xl md:rounded-2xl bg-surface-container overflow-hidden">
-<img alt="코월 @cowarrr BTCUSDT 현재 포지션 PNL 107K 달러 ROI 68%" width="360" height="640" class="w-full h-auto object-contain zoomable" src="profit-proof/IMG_1985.jpg"/>
+<img alt="코월 @cowarrr 트레이딩 기록 화면 3" width="360" height="640" class="w-full h-auto object-contain zoomable" src="profit-proof/IMG_1985.jpg"/>
+</div>
+<div class="rounded-xl md:rounded-2xl overflow-hidden">
+<video src="코월 수익인증 영상.mp4" controls playsinline class="w-full rounded-xl"></video>
 </div>
 </div>
 </div>
@@ -843,45 +1023,49 @@
 <div class="text-center mb-16">
 <span class="text-xs font-bold tracking-[0.3em] uppercase text-[#B8860B] mb-4 block">Pricing Plans</span>
 <h2 class="text-4xl font-bold mb-8 typewriter-target" data-text="요금제">요금제</h2>
-<div class="inline-flex items-center bg-surface-container p-1 rounded-full">
-<button class="px-6 py-2 rounded-full text-sm font-bold bg-surface-bright text-on-surface">월간</button>
-<button class="px-6 py-2 rounded-full text-sm font-bold text-on-surface-variant hover:text-on-surface transition-colors">연간 (33% 할인)</button>
 </div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto mb-12">
-<!-- Standard Plan -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-[900px] mx-auto">
+<!-- Monthly Plan -->
 <div class="relative rounded-2xl overflow-hidden flex flex-col h-full card-hover">
 <div class="absolute inset-0 z-0" style="background: url('assets/images/modules/pricing-standard.jpg') center/cover no-repeat;"></div>
 <div class="absolute inset-0 z-[1]" style="background: rgba(12,12,14,0.85);"></div>
 <div class="relative z-[2] p-6 md:p-10 flex flex-col h-full">
 <div class="mb-8">
-<h3 class="text-lg font-bold text-on-surface-variant mb-2">Standard</h3>
+<h3 class="text-lg font-bold text-on-surface-variant mb-2">Monthly</h3>
 <div class="flex items-baseline gap-1">
-<span class="text-3xl font-bold">₩29,900</span>
+<span class="text-3xl font-bold">₩99,000</span>
 <span class="text-on-surface-variant">/월</span>
 </div>
+<p class="text-xs text-[#6B6B75] mt-1">1개월 단위 이용</p>
 </div>
-<ul class="space-y-4 mb-12 flex-grow">
+<ul class="grid grid-cols-1 gap-y-4 mb-12 flex-grow">
 <li class="flex items-center gap-3 text-on-surface-variant">
 <span class="material-symbols-outlined text-primary-container text-sm">check_circle</span>
-                            차트 분석 PDF 교육자료
+                            슈팅스타 지표 제공
                         </li>
 <li class="flex items-center gap-3 text-on-surface-variant">
 <span class="material-symbols-outlined text-primary-container text-sm">check_circle</span>
-                            기초 기술적 분석 영상 강의
+                            교육자료 우선 제공
                         </li>
 <li class="flex items-center gap-3 text-on-surface-variant">
 <span class="material-symbols-outlined text-primary-container text-sm">check_circle</span>
-                            이메일 지원
+                            신규 지표 최우선 공개
                         </li>
 <li class="flex items-center gap-3 text-on-surface-variant">
 <span class="material-symbols-outlined text-primary-container text-sm">check_circle</span>
-                            교육자료 정기 업데이트
+                            지표 업데이트 최우선 진행
+                        </li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary-container text-sm">check_circle</span>
+                            설치·기능 관련 1:1 고객지원
                         </li>
 </ul>
-<button class="w-full py-4 rounded-lg bg-surface-container-highest text-on-surface font-bold hover:bg-surface-bright transition-colors">
-                        Standard 시작하기
-                    </button>
+<a href="sms:01029680020" class="block w-full py-4 rounded-lg bg-surface-container-highest text-on-surface font-bold hover:bg-surface-bright transition-colors text-center">
+                        Monthly 시작하기
+                    </a>
+<div class="mt-4 bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-center">
+<p class="text-sm text-[#9ca3af] font-medium">버튼을 누른 후 문자 문의 주시면<br/>순차적으로 답변 드리겠습니다.</p>
+</div>
 </div>
 </div>
 <!-- Pro Plan -->
@@ -889,13 +1073,16 @@
 <div class="absolute inset-0 z-0" style="background: url('assets/images/modules/pricing-pro.jpg') center/cover no-repeat;"></div>
 <div class="absolute inset-0 z-[1]" style="background: rgba(12,12,14,0.80);"></div>
 <div class="relative z-[2] p-6 md:p-10 flex flex-col h-full">
-<div class="absolute -top-3 right-4 md:right-8 bg-primary-container text-on-primary px-2 md:px-3 py-1 rounded text-[10px] md:text-xs font-black tracking-tighter uppercase z-10">POPULAR</div>
 <div class="mb-8">
 <h3 class="text-lg font-bold text-primary-container mb-2">Pro</h3>
-<div class="flex items-baseline gap-1">
-<span class="text-3xl font-bold">₩59,900</span>
-<span class="text-on-surface-variant">/월</span>
+<div class="flex items-baseline gap-2 mb-1">
+<span class="text-sm text-[#6B6B75] line-through">₩99,000/월</span>
+<span class="text-xs text-[#B8860B] font-bold">2개월 무료</span>
 </div>
+<div class="flex items-baseline gap-1">
+<span class="text-3xl font-bold">₩489,000</span>
+</div>
+<p class="text-xs text-[#6B6B75] mt-1">12개월 이용 · 월 ₩40,750</p>
 </div>
 <ul class="grid grid-cols-1 gap-y-4 mb-12 flex-grow">
 <li class="flex items-center gap-3 text-on-surface font-medium">
@@ -916,30 +1103,150 @@
                         </li>
 <li class="flex items-center gap-3 text-on-surface font-medium">
 <span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                            카톡/텔레그램 1:1 우선 지원
+                            설치·기능 관련 1:1 고객지원
                         </li>
 </ul>
-<button class="w-full py-4 rounded-lg gold-gradient gold-glow text-on-primary font-bold hover:brightness-110 transition-all">
+<a href="sms:01029680020" class="block w-full py-4 rounded-lg gold-gradient gold-glow text-on-primary font-bold hover:brightness-110 transition-all text-center">
                         Pro 시작하기
-                    </button>
+                    </a>
+<div class="mt-4 bg-[#B8860B]/10 border border-[#B8860B]/20 rounded-lg px-4 py-3 text-center">
+<p class="text-sm text-[#D4A017] font-medium">버튼을 누른 후 문자 문의 주시면<br/>순차적으로 답변 드리겠습니다.</p>
 </div>
 </div>
 </div>
-<!-- Lifetime Banner -->
-<div class="max-w-5xl mx-auto rounded-2xl overflow-hidden relative">
-<div class="absolute inset-0 z-0" style="background: url('assets/images/modules/lifetime-bg.jpg') center/cover no-repeat;"></div>
-<div class="absolute inset-0 z-[1]" style="background: rgba(12,12,14,0.75);"></div>
-<div class="relative z-[2] p-6 md:p-10 flex flex-col items-center text-center gap-3 md:gap-4">
-<h4 class="text-lg md:text-2xl font-bold text-primary-container gold-text-glow">한 번의 결제, 영원한 엣지</h4>
-<p class="text-on-surface-variant">Pro 전체 기능을 영구적으로 소장하세요</p>
-<span class="text-3xl md:text-4xl font-black tabular-nums font-data">₩990,000</span>
-<button class="bg-primary-container text-on-primary px-8 py-3 rounded-lg font-bold hover:brightness-110 active:scale-95 transition-all gold-glow">
-                        Lifetime 구매
-                    </button>
+<!-- Education Plan -->
+<div class="relative rounded-2xl overflow-hidden flex flex-col h-full card-hover md:col-span-2 border border-[#B8860B]/20" style="background: linear-gradient(135deg, rgba(184,134,11,0.06) 0%, rgba(12,12,14,0.95) 50%, rgba(184,134,11,0.04) 100%);">
+<div class="relative z-[2] p-6 md:p-10 flex flex-col h-full">
+<!-- Header -->
+<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-8">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<span class="text-xs font-bold tracking-[0.2em] uppercase text-[#B8860B] bg-[#B8860B]/10 px-3 py-1 rounded-full">Education</span>
+<span class="text-xs text-[#6B6B75]">Trading Weekly Series</span>
+</div>
+<h3 class="text-2xl md:text-3xl font-extrabold mb-3">의존하지 않고 매매하는 법을<br/>알려드립니다.</h3>
+<p class="text-on-surface-variant text-sm md:text-base leading-relaxed max-w-xl">코월이 15개 트레이딩 이론을 직접 정리한 주간 전자책 시리즈.<br/>기초부터 실전 플레이북까지.</p>
+</div>
+<div class="text-left md:text-right flex-shrink-0">
+<div class="inline-block bg-[#B8860B]/10 border border-[#B8860B]/20 rounded-lg px-4 py-1.5 mb-2">
+<span class="text-xs text-[#D4A017] font-bold">57권 한꺼번에 제공</span>
+</div>
+<div class="flex items-baseline gap-1 md:justify-end">
+<span class="text-3xl md:text-4xl font-bold">₩570,000</span>
+</div>
+<p class="text-xs text-[#6B6B75] mt-1">결제 즉시 전 권 일괄 수령</p>
+<p class="text-xs text-[#B8860B] mt-1 font-medium">권당 ₩10,000</p>
+</div>
+</div>
+<!-- 3D Book Carousel -->
+<div class="ebook-carousel-viewport relative mb-8">
+<button class="ebook-carousel-btn prev" onclick="ebookCarousel(-1)" aria-label="이전">
+<span class="material-symbols-outlined text-xl">chevron_left</span>
+</button>
+<div class="ebook-carousel-track" id="ebookTrack">
+<div class="ebook-cover-card" data-week="01">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w01_cover.png" alt="W01" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 01</span><br/><span class="text-xs font-bold">시장은 왜 움직이는가</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="02">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w02_cover.png" alt="W02" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 02</span><br/><span class="text-xs font-bold">시장 구조의 문법</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="03">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w03_cover.png" alt="W03" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 03</span><br/><span class="text-xs font-bold">구조의 깊이</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="04">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w04_cover.png" alt="W04" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 04</span><br/><span class="text-xs font-bold">유동성 지도 읽기</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="05">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w05_cover.png" alt="W05" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 05</span><br/><span class="text-xs font-bold">핵심 레벨</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="06">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w06_cover.png" alt="W06" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 06</span><br/><span class="text-xs font-bold">프라이스 액션 기초</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="07">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w07_cover.png" alt="W07" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 07</span><br/><span class="text-xs font-bold">시장 환경 판단</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="08">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w08_cover.png" alt="W08" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 08</span><br/><span class="text-xs font-bold">기초가 실패할 때</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="09">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w09_cover.png" alt="W09" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 09</span><br/><span class="text-xs font-bold">프리미엄과 디스카운트</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="10">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w10_cover.png" alt="W10" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 10</span><br/><span class="text-xs font-bold">오더블록</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="11">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w11_cover.png" alt="W11" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 11</span><br/><span class="text-xs font-bold">공정 가치 갭</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="12">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w12_cover.png" alt="W12" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 12</span><br/><span class="text-xs font-bold">브레이커와 완화 블록</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="13">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w13_cover.png" alt="W13" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 13</span><br/><span class="text-xs font-bold">유동성 유도와 스윕</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="14">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w14_cover.png" alt="W14" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 14</span><br/><span class="text-xs font-bold">킬존과 타이밍</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="15">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w15_cover.png" alt="W15" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 15</span><br/><span class="text-xs font-bold">SMT와 컨플루언스</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="16">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w16_cover.png" alt="W16" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 16</span><br/><span class="text-xs font-bold">진입 모델 I</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="17">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w17_cover.png" alt="W17" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 17</span><br/><span class="text-xs font-bold">SMC가 실패할 때</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="18">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w18_cover.png" alt="W18" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 18</span><br/><span class="text-xs font-bold">피보나치 실전</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="19">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w19_cover.png" alt="W19" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 19</span><br/><span class="text-xs font-bold">공급/수요 존</span></div></div>
+</div>
+<div class="ebook-cover-card" data-week="20">
+<div class="ebook-cover-inner"><img src="assets/images/ebooks/w20_cover.png" alt="W20" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 20</span><br/><span class="text-xs font-bold">다이버전스 필터</span></div></div>
+</div>
+</div>
+<button class="ebook-carousel-btn next" onclick="ebookCarousel(1)" aria-label="다음">
+<span class="material-symbols-outlined text-xl">chevron_right</span>
+</button>
+</div>
+<!-- Stats + CTAs -->
+<div class="flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex flex-wrap gap-6 md:gap-10">
+<div class="text-center">
+<div class="text-2xl font-bold font-data text-[#B8860B]">57</div>
+<div class="text-xs text-[#6B6B75]">전체 커리큘럼</div>
+</div>
+<div class="text-center">
+<div class="text-2xl font-bold font-data text-[#B8860B]">15</div>
+<div class="text-xs text-[#6B6B75]">이론 통합</div>
+</div>
+<div class="text-center">
+<div class="text-2xl font-bold font-data text-[#B8860B]">7</div>
+<div class="text-xs text-[#6B6B75]">시즌 구성</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+<a href="/ebook.html" class="px-6 py-3 rounded-lg border border-[#B8860B]/40 text-[#B8860B] font-bold hover:bg-[#B8860B]/10 transition-all text-sm text-center">
+자세히 알아보기
+</a>
+<a href="sms:01029680020" class="px-6 py-3 rounded-lg gold-gradient gold-glow text-[#0c0c0e] font-bold hover:brightness-110 transition-all text-sm text-center">
+Education 시작하기
+</a>
+</div>
+</div>
+<div class="mt-4 text-center">
+<p class="text-sm text-[#9ca3af] font-medium">버튼을 누른 후 문자 문의 주시면 순차적으로 답변 드리겠습니다.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 </section>
+<!-- Roadmap Lightbox -->
+<div class="roadmap-lightbox" id="roadmapLightbox" onclick="this.classList.remove('active')">
+<button class="absolute top-5 right-6 text-[#B8860B] text-3xl z-10 hover:text-white transition-colors" onclick="event.stopPropagation(); document.getElementById('roadmapLightbox').classList.remove('active')">&times;</button>
+<img src="assets/images/ebooks/roadmap.png" alt="co'stes 57권 커리큘럼 로드맵" onclick="event.stopPropagation()"/>
+</div>
 <!-- FAQ Section -->
 <section id="faq" class="relative py-24 overflow-hidden">
 <div class="absolute inset-0 z-0" style="background: url('assets/images/modules/faq-bg.jpg') center/cover no-repeat;"></div>
@@ -972,14 +1279,7 @@
 <!-- FAQ Item 4 -->
 <div class="bg-surface-container-low rounded-lg overflow-hidden card-hover">
 <button class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-surface-container transition-colors group">
-<span class="font-bold">Standard와 Pro의 차이는 무엇인가요?</span>
-<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary-container transition-colors">expand_more</span>
-</button>
-</div>
-<!-- FAQ Item 5 -->
-<div class="bg-surface-container-low rounded-lg overflow-hidden card-hover">
-<button class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-surface-container transition-colors group">
-<span class="font-bold">Lifetime 구매 후 업데이트는 계속 받을 수 있나요?</span>
+<span class="font-bold">Pro 플랜에는 무엇이 포함되나요?</span>
 <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary-container transition-colors">expand_more</span>
 </button>
 </div>
@@ -1005,11 +1305,40 @@
 <p>상호명: 준걸준 | 대표자명: 이상준</p>
 <p>사업장주소: 서울 영등포구 영신로 38길 15, 3층 3B-11</p>
 <p>사업자 등록번호: 832-16-02629 | 대표 전화: 010-6878-0020</p>
+<p>이메일: support@costes-site.vercel.app</p>
+<p>통신판매업 신고번호: 준비 중 | 호스팅제공자: Vercel Inc.</p>
 <p>개인정보보호책임자: 이상준</p>
 </div>
+<p class="text-[#3a3a3e] text-[10px] leading-relaxed mt-4 max-w-2xl mx-auto">본 서비스는 일반적인 차트 분석 참고자료 및 도구이며, 투자자문에 해당하지 않습니다. 과거 사례는 향후 결과를 보장하지 않으며, 시장 상황에 따라 원금손실이 발생할 수 있습니다.</p>
 </div>
 </footer>
 <script>
+// Ebook Carousel
+let ebookPos = 0;
+function ebookCarousel(dir) {
+  const track = document.getElementById('ebookTrack');
+  const cards = track.querySelectorAll('.ebook-cover-card');
+  const isMobile = window.innerWidth <= 768;
+  const cardWidth = isMobile ? 156 : 204; // card + gap
+  const visibleCards = Math.floor(track.parentElement.offsetWidth / cardWidth);
+  const maxPos = cards.length - visibleCards;
+  ebookPos = Math.max(0, Math.min(maxPos, ebookPos + dir));
+  track.style.transform = `translateX(-${ebookPos * cardWidth}px)`;
+}
+// Touch swipe support for ebook carousel
+(function() {
+  const track = document.getElementById('ebookTrack');
+  if (!track) return;
+  let startX = 0, isDragging = false;
+  track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; isDragging = true; }, { passive: true });
+  track.addEventListener('touchend', (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) ebookCarousel(diff > 0 ? 1 : -1);
+  }, { passive: true });
+})();
+
 // Scroll progress bar
 const scrollProgress = document.getElementById('scroll-progress');
 window.addEventListener('scroll', () => {
@@ -1298,9 +1627,8 @@ document.querySelectorAll('.space-y-4 button').forEach(btn => {
       const answers = {
         '슈팅스타 지표는 어떤 시장에 적용 가능한가요?': 'TradingView에서 차트가 존재하는 모든 시장에 적용 가능합니다. 비트코인, 이더리움 등 크립토는 물론 미국 주식, 국내 주식, 금, 원유, 환율 등 차트가 있는 곳이라면 어디서든 슈팅스타를 사용할 수 있습니다.',
         'TradingView에 어떻게 적용하나요?': '구독 완료 후 TradingView 초대 링크를 발송해드립니다. 초대를 수락하시면 지표 검색에서 슈팅스타 지표를 추가하실 수 있습니다. 상세한 설치 가이드도 함께 제공됩니다.',
-        '환불이 가능한가요?': '첫 구독일로부터 7일 이내에 환불 요청 시 전액 환불해드립니다. Lifetime 구매의 경우에도 7일 이내 환불이 가능합니다.',
-        'Standard와 Pro의 차이는 무엇인가요?': 'Standard는 차트 분석 PDF 교육자료와 기초 기술적 분석 영상 강의를 제공합니다. Pro는 슈팅스타 지표 제공, 교육자료 우선 제공, 신규 지표 최우선 공개, 지표 업데이트 최우선 진행, 1:1 우선 지원이 포함됩니다.',
-        'Lifetime 구매 후 업데이트는 계속 받을 수 있나요?': '네, Lifetime 구매 시 평생 무료 업데이트를 제공합니다. 신규 지표 추가, 기능 개선 등 모든 업데이트를 우선적으로 받으실 수 있습니다.'
+        '환불이 가능한가요?': '청약철회 및 환불은 관계 법령과 서비스 제공 상태에 따라 처리됩니다. 자세한 내용은 이용약관을 참고해주세요.',
+        'Pro 플랜에는 무엇이 포함되나요?': 'Pro 플랜은 슈팅스타 지표 제공, 교육자료 우선 제공, 신규 지표 최우선 공개, 지표 업데이트 최우선 진행, 설치·기능 관련 1:1 지원이 포함됩니다.'
       };
       const questionText = this.querySelector('span:first-child').textContent;
       const answerDiv = document.createElement('div');
@@ -1323,29 +1651,6 @@ document.querySelectorAll('.space-y-4 button').forEach(btn => {
   });
 });
 
-// Pricing Toggle (Monthly/Yearly)
-const pricingBtns = document.querySelectorAll('.inline-flex button');
-const standardPrice = document.querySelector('.grid.md\\:grid-cols-2 > div:first-child .text-3xl');
-const proPrice = document.querySelector('.grid.md\\:grid-cols-2 > div:last-child .text-3xl');
-
-pricingBtns.forEach((btn, i) => {
-  btn.addEventListener('click', function() {
-    pricingBtns.forEach(b => {
-      b.classList.remove('bg-surface-bright', 'text-on-surface');
-      b.classList.add('text-on-surface-variant');
-    });
-    this.classList.add('bg-surface-bright', 'text-on-surface');
-    this.classList.remove('text-on-surface-variant');
-
-    if (i === 0) { // Monthly
-      standardPrice.textContent = '₩29,900';
-      proPrice.textContent = '₩59,900';
-    } else { // Yearly
-      standardPrice.textContent = '₩19,900';
-      proPrice.textContent = '₩39,900';
-    }
-  });
-});
 
 // Smooth scroll for nav links
 document.querySelectorAll('.nav-link').forEach(link => {

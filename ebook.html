@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="robots" content="max-image-preview:large"/>
+<title>트레이딩 전자책 시리즈 — 57권 커리큘럼 | co's tes</title>
+<link rel="canonical" href="https://costes-site.vercel.app/ebook.html"/>
+<meta name="description" content="코월(@cowarrr)이 15개 트레이딩 이론을 직접 학습하고 정리한 주간 전자책 시리즈. 기초부터 실전 시스템 구축까지 57권 완전 커리큘럼."/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="트레이딩 전자책 시리즈 — 57권 커리큘럼"/>
+<meta property="og:description" content="의존하지 않고 매매하는 법. 15개 이론 × 7개 시즌 × 57권. co'stes 트레이딩 교육 시리즈."/>
+<meta property="og:image" content="https://costes-site.vercel.app/assets/images/ebooks/w01_cover.png"/>
+<meta property="og:url" content="https://costes-site.vercel.app/ebook.html"/>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://costes-site.vercel.app"},{"@type":"ListItem","position":2,"name":"전자책 시리즈"}]}
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+body { font-family: 'Pretendard Variable', sans-serif; background: #0c0c0e; color: #e5e1e4; -webkit-font-smoothing: antialiased; word-break: keep-all; overflow-wrap: break-word; }
+.font-data { font-family: 'Space Grotesk', monospace; }
+.gold-gradient { background: linear-gradient(135deg, #B8860B 0%, #D4A017 100%); }
+.gold-glow { box-shadow: 0 0 20px rgba(184, 134, 11, 0.4), 0 0 60px rgba(184, 134, 11, 0.15); }
+.gold-text-glow { text-shadow: 0 0 20px rgba(184, 134, 11, 0.5), 0 0 40px rgba(184, 134, 11, 0.25); }
+.glass-panel { backdrop-filter: blur(12px); background: rgba(53,52,55,0.4); }
+
+/* Scroll reveal */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* Season card */
+.season-card { border: 1px solid rgba(184,134,11,0.1); transition: all 0.4s ease; }
+.season-card:hover { border-color: rgba(184,134,11,0.4); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(184,134,11,0.08); }
+
+/* Theory badge */
+.theory-badge { background: rgba(184,134,11,0.08); border: 1px solid rgba(184,134,11,0.15); transition: all 0.3s; }
+.theory-badge:hover { background: rgba(184,134,11,0.15); border-color: rgba(184,134,11,0.3); }
+
+/* Stat counter */
+.stat-item { position: relative; }
+
+/* Lightbox */
+.lightbox { position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.92); display: none; align-items: center; justify-content: center; cursor: zoom-out; backdrop-filter: blur(8px); }
+.lightbox.active { display: flex; }
+.lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 8px; }
+
+/* Floating gold particles */
+.particle-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.particle-bg span { position: absolute; width: 2px; height: 2px; background: #B8860B; border-radius: 50%; opacity: 0; animation: floatUp linear infinite; }
+@keyframes floatUp {
+  0% { opacity: 0; transform: translateY(0); }
+  20% { opacity: 0.4; }
+  80% { opacity: 0.2; }
+  100% { opacity: 0; transform: translateY(-100vh); }
+}
+
+/* Timeline connector */
+.timeline-line { position: absolute; left: 24px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, transparent, rgba(184,134,11,0.3), rgba(184,134,11,0.3), transparent); }
+.timeline-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #B8860B; background: #0c0c0e; position: absolute; left: 19px; top: 6px; z-index: 2; }
+
+/* Ebook 3D Carousel */
+.ebook-carousel-viewport { overflow: hidden; position: relative; width: 100%; padding: 30px 0; }
+.ebook-carousel-track { display: flex; gap: 24px; transition: transform 0.5s cubic-bezier(0.25,1,0.5,1); padding: 0 40px; }
+.ebook-cover-card { flex: 0 0 180px; perspective: 800px; cursor: pointer; }
+.ebook-cover-inner { position: relative; width: 180px; height: 270px; transform-style: preserve-3d; transform: rotateY(-8deg); transition: transform 0.4s ease, box-shadow 0.4s ease; border-radius: 6px; overflow: hidden; box-shadow: -6px 6px 20px rgba(0,0,0,0.6), -2px 2px 8px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(184,134,11,0.08); }
+.ebook-cover-card:hover .ebook-cover-inner { transform: rotateY(0deg) scale(1.06); box-shadow: 0 12px 40px rgba(184,134,11,0.2), 0 4px 16px rgba(0,0,0,0.5); }
+.ebook-cover-inner img { width: 100%; height: 100%; object-fit: cover; }
+.ebook-cover-inner::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(to right, rgba(0,0,0,0.5), rgba(184,134,11,0.3), rgba(0,0,0,0.2)); z-index: 2; }
+.ebook-cover-inner::after { content: ''; position: absolute; right: -3px; top: 3px; bottom: 3px; width: 3px; background: repeating-linear-gradient(to bottom, #d4c9a8 0px, #d4c9a8 1px, #c4b898 1px, #c4b898 2px); border-radius: 0 2px 2px 0; z-index: 1; opacity: 0.6; }
+.ebook-cover-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.85)); padding: 24px 10px 10px; text-align: center; opacity: 0; transform: translateY(6px); transition: opacity 0.3s, transform 0.3s; z-index: 3; }
+.ebook-cover-card:hover .ebook-cover-label { opacity: 1; transform: translateY(0); }
+.ebook-carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; width: 44px; height: 44px; border-radius: 50%; background: rgba(184,134,11,0.15); border: 1px solid rgba(184,134,11,0.3); color: #B8860B; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(8px); transition: all 0.3s; }
+.ebook-carousel-btn:hover { background: rgba(184,134,11,0.3); border-color: #B8860B; }
+.ebook-carousel-btn.prev { left: 0; }
+.ebook-carousel-btn.next { right: 0; }
+@media (max-width: 768px) { .ebook-cover-card { flex: 0 0 140px; } .ebook-cover-inner { width: 140px; height: 210px; } .ebook-carousel-track { gap: 16px; padding: 0 20px; } }
+
+/* Pulse CTA */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(184,134,11,0.4), 0 0 60px rgba(184,134,11,0.15); }
+  50% { box-shadow: 0 0 30px rgba(184,134,11,0.6), 0 0 80px rgba(184,134,11,0.25); }
+}
+.cta-pulse { animation: pulseGlow 3s ease-in-out infinite; }
+</style>
+</head>
+<body class="min-h-screen relative">
+
+<!-- Floating particles -->
+<div class="particle-bg" id="particles"></div>
+
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-[#0c0c0e]/80 backdrop-blur-md border-b border-white/5">
+<div class="flex justify-between items-center px-6 md:px-8 h-16 max-w-[1440px] mx-auto">
+<a href="/" class="flex items-center gap-1"><img src="/assets/images/symbol.png" alt="코월 심볼" width="32" height="36" class="h-8 w-auto"/><img src="/assets/images/logo.png" alt="co'stes 로고" width="100" height="36" class="h-8 w-auto"/></a>
+<a href="/" class="text-sm text-gray-500 hover:text-white transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">arrow_back</span> 홈으로
+</a>
+</div>
+</nav>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+<span class="absolute top-5 right-6 text-[#B8860B] text-3xl cursor-pointer hover:text-white transition-colors" onclick="document.getElementById('lightbox').classList.remove('active'); document.body.style.overflow='';">&times;</span>
+<img src="" alt="" id="lightbox-img"/>
+</div>
+
+<!-- ===================== HERO ===================== -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+<div class="absolute inset-0 z-0" style="background: radial-gradient(ellipse at 50% 30%, rgba(184,134,11,0.12) 0%, transparent 60%), #0c0c0e;"></div>
+<div class="absolute inset-0 z-[1]" style="background: linear-gradient(to bottom, transparent 60%, #0c0c0e 100%);"></div>
+<div class="relative z-[2] text-center px-6 max-w-4xl mx-auto">
+<span class="text-xs font-bold tracking-[0.3em] uppercase text-[#B8860B] mb-6 block font-data">TRADING WEEKLY SERIES</span>
+<h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-6" style="line-height:1.3;">
+의존하지 않고<br/><span class="text-[#FFD700] gold-text-glow">매매하는 법</span>
+</h1>
+<p class="text-lg md:text-xl text-[#a0a0a8] mb-4 leading-relaxed">
+코월이 15개 트레이딩 이론을 직접 학습하고<br/>57권의 전자책으로 정리했습니다.
+</p>
+<p class="text-sm text-[#6B6B75] mb-10">기초부터 실전 시스템 구축까지.<br/>매주 한 권, 57주 완성 커리큘럼.</p>
+
+<!-- Stats -->
+<div class="flex justify-center gap-12 md:gap-20 mb-12">
+<div class="stat-item text-center pb-4">
+<div class="text-4xl md:text-5xl font-black font-data text-[#B8860B] gold-text-glow count-up" data-target="57">0</div>
+<div class="text-xs text-[#6B6B75] mt-1 tracking-wider uppercase">Total Volumes</div>
+</div>
+<div class="stat-item text-center pb-4">
+<div class="text-4xl md:text-5xl font-black font-data text-[#B8860B] gold-text-glow count-up" data-target="15">0</div>
+<div class="text-xs text-[#6B6B75] mt-1 tracking-wider uppercase">Trading Theories</div>
+</div>
+<div class="stat-item text-center pb-4">
+<div class="text-4xl md:text-5xl font-black font-data text-[#B8860B] gold-text-glow count-up" data-target="7">0</div>
+<div class="text-xs text-[#6B6B75] mt-1 tracking-wider uppercase">Seasons</div>
+</div>
+</div>
+
+<div class="inline-block bg-[#B8860B]/10 border border-[#B8860B]/20 rounded-full px-5 py-2 mb-4">
+<span class="text-sm text-[#D4A017] font-bold">결제 즉시 57권 한꺼번에 수령</span>
+</div><br/>
+<a href="sms:01029680020" class="inline-block gold-gradient cta-pulse text-[#0c0c0e] font-bold px-10 py-4 rounded-lg text-lg hover:brightness-110 active:scale-95 transition-all">
+57권 전체 수령하기 — ₩570,000
+</a>
+<p class="text-xs text-[#6B6B75] mt-3">권당 ₩10,000 · 기다릴 필요 없이 전 권 일괄 제공</p>
+</div>
+</section>
+
+<!-- ===================== EDUCATION CARD ===================== -->
+<section class="relative z-[1] py-16 px-6 md:px-12">
+<div class="max-w-[1100px] mx-auto reveal">
+<div class="relative rounded-2xl overflow-hidden border border-[#B8860B]/20 p-6 md:p-10" style="background: linear-gradient(135deg, rgba(184,134,11,0.06) 0%, rgba(12,12,14,0.95) 50%, rgba(184,134,11,0.04) 100%);">
+<!-- Header -->
+<div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-8">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<span class="text-xs font-bold tracking-[0.2em] uppercase text-[#B8860B] bg-[#B8860B]/10 px-3 py-1 rounded-full">Education</span>
+<span class="text-xs text-[#6B6B75]">Trading Weekly Series</span>
+</div>
+<h3 class="text-2xl md:text-3xl font-extrabold mb-3">의존하지 않고 매매하는 법을<br/>알려드립니다.</h3>
+<p class="text-[#a0a0a8] text-sm md:text-base leading-relaxed max-w-xl">코월이 15개 트레이딩 이론을 직접 정리한 주간 전자책 시리즈.<br/>기초부터 실전 플레이북까지.</p>
+</div>
+<div class="text-left md:text-right flex-shrink-0">
+<div class="inline-block bg-[#B8860B]/10 border border-[#B8860B]/20 rounded-lg px-4 py-1.5 mb-2">
+<span class="text-xs text-[#D4A017] font-bold">57권 한꺼번에 제공</span>
+</div>
+<div class="flex items-baseline gap-1 md:justify-end">
+<span class="text-3xl md:text-4xl font-bold font-data">₩570,000</span>
+</div>
+<p class="text-xs text-[#6B6B75] mt-1">결제 즉시 전 권 일괄 수령</p>
+<p class="text-xs text-[#B8860B] mt-1 font-medium">권당 ₩10,000</p>
+</div>
+</div>
+<!-- 3D Book Carousel -->
+<div class="ebook-carousel-viewport relative mb-8">
+<button class="ebook-carousel-btn prev" onclick="ebookCarousel(-1)" aria-label="이전">
+<span class="material-symbols-outlined text-xl">chevron_left</span>
+</button>
+<div class="ebook-carousel-track" id="ebookTrack">
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w01_cover.png" alt="W01" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 01</span><br/><span class="text-xs font-bold">시장은 왜 움직이는가</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w02_cover.png" alt="W02" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 02</span><br/><span class="text-xs font-bold">시장 구조의 문법</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w03_cover.png" alt="W03" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 03</span><br/><span class="text-xs font-bold">구조의 깊이</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w04_cover.png" alt="W04" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 04</span><br/><span class="text-xs font-bold">유동성 지도 읽기</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w05_cover.png" alt="W05" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 05</span><br/><span class="text-xs font-bold">핵심 레벨</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w06_cover.png" alt="W06" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 06</span><br/><span class="text-xs font-bold">프라이스 액션 기초</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w07_cover.png" alt="W07" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 07</span><br/><span class="text-xs font-bold">시장 환경 판단</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w08_cover.png" alt="W08" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 08</span><br/><span class="text-xs font-bold">기초가 실패할 때</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w09_cover.png" alt="W09" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 09</span><br/><span class="text-xs font-bold">프리미엄과 디스카운트</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w10_cover.png" alt="W10" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 10</span><br/><span class="text-xs font-bold">오더블록</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w11_cover.png" alt="W11" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 11</span><br/><span class="text-xs font-bold">공정 가치 갭</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w12_cover.png" alt="W12" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 12</span><br/><span class="text-xs font-bold">브레이커와 완화 블록</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w13_cover.png" alt="W13" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 13</span><br/><span class="text-xs font-bold">유동성 유도와 스윕</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w14_cover.png" alt="W14" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 14</span><br/><span class="text-xs font-bold">킬존과 타이밍</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w15_cover.png" alt="W15" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 15</span><br/><span class="text-xs font-bold">SMT와 컨플루언스</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w16_cover.png" alt="W16" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 16</span><br/><span class="text-xs font-bold">진입 모델 I</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w17_cover.png" alt="W17" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 17</span><br/><span class="text-xs font-bold">SMC가 실패할 때</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w18_cover.png" alt="W18" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 18</span><br/><span class="text-xs font-bold">피보나치 실전</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w19_cover.png" alt="W19" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 19</span><br/><span class="text-xs font-bold">공급/수요 존</span></div></div></div>
+<div class="ebook-cover-card"><div class="ebook-cover-inner"><img src="assets/images/ebooks/w20_cover.png" alt="W20" loading="lazy" class="zoomable"/><div class="ebook-cover-label"><span class="text-[10px] text-[#B8860B] font-data">WEEK 20</span><br/><span class="text-xs font-bold">다이버전스 필터</span></div></div></div>
+</div>
+<button class="ebook-carousel-btn next" onclick="ebookCarousel(1)" aria-label="다음">
+<span class="material-symbols-outlined text-xl">chevron_right</span>
+</button>
+</div>
+<!-- CTA -->
+<div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+<a href="sms:01029680020" class="px-8 py-3 rounded-lg gold-gradient gold-glow text-[#0c0c0e] font-bold hover:brightness-110 transition-all text-sm text-center">
+Education 시작하기
+</a>
+</div>
+<p class="text-center text-sm text-[#9ca3af] mt-4">버튼을 누른 후 문자 문의 주시면 순차적으로 답변 드리겠습니다.</p>
+</div>
+</div>
+</section>
+
+<!-- ===================== WHY THIS SERIES ===================== -->
+<section class="relative z-[1] py-24 px-6 md:px-12 max-w-[1100px] mx-auto">
+<div class="reveal">
+<span class="text-xs font-bold tracking-[0.3em] uppercase text-[#B8860B] mb-4 block text-center">Why This Series</span>
+<h2 class="text-3xl md:text-4xl font-extrabold text-center mb-6">왜 이 시리즈인가</h2>
+<p class="text-center text-[#a0a0a8] max-w-2xl mx-auto mb-16 leading-relaxed">
+지표에 의존하는 매매는 한계가 있습니다.<br/>
+시장이 왜 움직이는지 이해해야, 어떤 도구든 제대로 쓸 수 있습니다.
+</p>
+</div>
+
+<div class="grid md:grid-cols-3 gap-6 reveal">
+<!-- Card 1 -->
+<div class="season-card rounded-2xl p-8 bg-[#141416]">
+<div class="w-12 h-12 rounded-xl bg-[#B8860B]/10 flex items-center justify-center mb-5 text-[#B8860B]">
+<span class="material-symbols-outlined text-2xl">school</span>
+</div>
+<h3 class="text-lg font-bold mb-3">15개 이론 통합</h3>
+<p class="text-sm text-[#a0a0a8] leading-relaxed">
+ICT/SMC, 와이코프, 엘리엇, 하모닉, 오더플로우, 볼륨 프로파일, 피보나치, 프라이스 액션, 다이버전스, 이치모쿠 등 15개 이론을 하나의 체계로 엮었습니다.
+</p>
+</div>
+<!-- Card 2 -->
+<div class="season-card rounded-2xl p-8 bg-[#141416]">
+<div class="w-12 h-12 rounded-xl bg-[#B8860B]/10 flex items-center justify-center mb-5 text-[#B8860B]">
+<span class="material-symbols-outlined text-2xl">warning</span>
+</div>
+<h3 class="text-lg font-bold mb-3">실패를 가르칩니다</h3>
+<p class="text-sm text-[#a0a0a8] leading-relaxed">
+매 권마다 "이것이 실패할 때" 섹션을 포함합니다. 8주마다 WHEN IT FAILS 전용 권을 배치해, 해당 시즌 전체의 실패 조건을 종합합니다. 성공만 보여주는 교육은 없습니다.
+</p>
+</div>
+<!-- Card 3 -->
+<div class="season-card rounded-2xl p-8 bg-[#141416]">
+<div class="w-12 h-12 rounded-xl bg-[#B8860B]/10 flex items-center justify-center mb-5 text-[#B8860B]">
+<span class="material-symbols-outlined text-2xl">auto_graph</span>
+</div>
+<h3 class="text-lg font-bold mb-3">직접 매매하는 사람이 썼습니다</h3>
+<p class="text-sm text-[#a0a0a8] leading-relaxed">
+이론만 아는 사람이 아닙니다. 코월은 슈팅스타 지표 하나로 직접 매매하며, 5일간 $520,000을 기록한 실전 트레이더입니다. 과거 사례이며 향후 결과를 보장하지 않습니다.
+</p>
+</div>
+</div>
+</section>
+
+<!-- ===================== 15 THEORIES ===================== -->
+<section class="relative z-[1] py-24 px-6 md:px-12 overflow-hidden">
+<div class="absolute inset-0" style="background: radial-gradient(ellipse at 30% 50%, rgba(184,134,11,0.04) 0%, transparent 50%);"></div>
+<div class="max-w-[1100px] mx-auto relative">
+<div class="reveal">
+<span class="text-xs font-bold tracking-[0.3em] uppercase text-[#B8860B] mb-4 block text-center">15 Trading Theories</span>
+<h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">이 시리즈가 다루는 이론</h2>
+<p class="text-center text-[#a0a0a8] mb-12">각 이론을 개별적으로 배우고, 통합하여 실전에 적용합니다.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-3 reveal">
+<span class="theory-badge rounded-full px-4 py-2 text-sm text-[#d4c9a8]">ICT / SMC</span>
+<span class="theory-badge rounded-full px-4 py-2 text-sm text-[#d4c9a8]">와이코프</span>
+<span class="theory-badge rounded-full px-4 py-2 text-sm text-[#d4c9a8]">엘리엇 파동</span>
+<span class="theory-badge rounded-full px-4 py-2 text-sm text-[#d4c9a8]">하모닉 패턴</span>
+<span class="theory-badge rounded-full px-4 py-2 text-sm text-[#d4c9a8]">오더플로우</span>
+<span class="theory-badge rounded-full px-4 py-2 text-sm text-[#d4c9a8]">볼륨 프로파일</span>
+<span class="theory-badge rounded-full px-4 py-2 text-sm text-[#d4c9a8]">피보나치</span>
+<span class="theory-badge rounded-full px-4 py-2 text-sm text-[#d4c9a8]">프라이스 액션</span>
+<span class="theory-badge rounded-full px-4 py-2 text-sm text-[#d4c9a8]">공급/수요 영역</span>
+<span class="theory-badge rounded-full px-4 py-2 text-sm text-[#d4c9a8]">다이버전스</span>
+<span class="theory-badge rounded-full px-4 py-2 text-sm text-[#d4c9a8]">이치모쿠</span>
+<span class="theory-badge rounded-full px-4 py-2 text-sm text-[#d4c9a8]">마켓 미시구조</span>
+<span class="theory-badge rounded-full px-4 py-2 text-sm text-[#d4c9a8]">트레이딩 심리학</span>
+<span class="theory-badge rounded-full px-4 py-2 text-sm text-[#d4c9a8]">리스크 관리</span>
+<span class="theory-badge rounded-full px-4 py-2 text-sm text-[#d4c9a8]">다중 타임프레임</span>
+</div>
+</div>
+</section>
+
+<!-- ===================== 7 SEASONS ===================== -->
+<section class="relative z-[1] py-24 px-6 md:px-12">
+<div class="max-w-[1100px] mx-auto">
+<div class="reveal">
+<span class="text-xs font-bold tracking-[0.3em] uppercase text-[#B8860B] mb-4 block text-center">7 Seasons</span>
+<h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">57권, 7개의 시즌</h2>
+<p class="text-center text-[#a0a0a8] mb-16 max-w-2xl mx-auto">완전한 초보에서 시작해, 57주 후에는 자신만의 매매 시스템을 갖추게 됩니다.</p>
+</div>
+
+<div class="space-y-8">
+<!-- Season 1 -->
+<div class="season-card rounded-2xl p-6 md:p-8 bg-[#141416] reveal">
+<div class="flex flex-col md:flex-row md:items-start gap-6">
+<div class="flex-shrink-0">
+<div class="w-16 h-16 rounded-2xl gold-gradient flex items-center justify-center">
+<span class="text-2xl font-black text-[#0c0c0e] font-data">S1</span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex flex-wrap items-center gap-3 mb-2">
+<h3 class="text-xl font-bold">시장의 뼈대</h3>
+<span class="text-xs text-[#6B6B75] font-data">W01 — W08</span>
+<span class="text-xs bg-green-500/10 text-green-400 px-2 py-0.5 rounded-full">기초</span>
+</div>
+<p class="text-sm text-[#a0a0a8] leading-relaxed mb-4">시장은 왜 움직이는가. 유동성, 시장 구조, 프라이스 액션의 기본을 세웁니다. 트레이딩을 처음 시작하는 사람도 따라올 수 있는 난이도입니다.</p>
+<div class="flex flex-wrap gap-2">
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">시장 구조</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">유동성</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">프라이스 액션</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">핵심 레벨</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">시장 환경</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Season 2 -->
+<div class="season-card rounded-2xl p-6 md:p-8 bg-[#141416] reveal">
+<div class="flex flex-col md:flex-row md:items-start gap-6">
+<div class="flex-shrink-0">
+<div class="w-16 h-16 rounded-2xl gold-gradient flex items-center justify-center">
+<span class="text-2xl font-black text-[#0c0c0e] font-data">S2</span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex flex-wrap items-center gap-3 mb-2">
+<h3 class="text-xl font-bold">SMC 핵심 도구</h3>
+<span class="text-xs text-[#6B6B75] font-data">W09 — W17</span>
+<span class="text-xs bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded-full">초중급</span>
+</div>
+<p class="text-sm text-[#a0a0a8] leading-relaxed mb-4">스마트머니 컨셉의 실전 무기들. 오더블록, FVG, 브레이커, 킬존, 컨플루언스 등 ICT 방법론의 핵심 도구를 낱낱이 분해합니다. 이 시즌을 마치면 차트 위에서 진입 근거를 직접 세울 수 있습니다.</p>
+<div class="flex flex-wrap gap-2">
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">프리미엄/디스카운트</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">오더블록</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">FVG</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">브레이커</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">킬존</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">SMT</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Season 3 -->
+<div class="season-card rounded-2xl p-6 md:p-8 bg-[#141416] reveal">
+<div class="flex flex-col md:flex-row md:items-start gap-6">
+<div class="flex-shrink-0">
+<div class="w-16 h-16 rounded-2xl gold-gradient flex items-center justify-center">
+<span class="text-2xl font-black text-[#0c0c0e] font-data">S3</span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex flex-wrap items-center gap-3 mb-2">
+<h3 class="text-xl font-bold">확인 도구</h3>
+<span class="text-xs text-[#6B6B75] font-data">W18 — W25</span>
+<span class="text-xs bg-purple-500/10 text-purple-400 px-2 py-0.5 rounded-full">중상급</span>
+</div>
+<p class="text-sm text-[#a0a0a8] leading-relaxed mb-4">피보나치, 다이버전스, 볼륨 프로파일, 오더플로우. 진입 전 마지막으로 "이 자리가 맞는가"를 검증하는 확인 도구들을 익힙니다. 풋프린트 차트까지 다루어 기관의 발자국을 읽는 법을 배웁니다.</p>
+<div class="flex flex-wrap gap-2">
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">피보나치</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">공급/수요</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">다이버전스</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">볼륨 프로파일</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">풋프린트</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">오더플로우</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Season 4 -->
+<div class="season-card rounded-2xl p-6 md:p-8 bg-[#141416] reveal">
+<div class="flex flex-col md:flex-row md:items-start gap-6">
+<div class="flex-shrink-0">
+<div class="w-16 h-16 rounded-2xl gold-gradient flex items-center justify-center">
+<span class="text-2xl font-black text-[#0c0c0e] font-data">S4</span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex flex-wrap items-center gap-3 mb-2">
+<h3 class="text-xl font-bold">고급 구조 모델</h3>
+<span class="text-xs text-[#6B6B75] font-data">W26 — W33</span>
+<span class="text-xs bg-red-500/10 text-red-400 px-2 py-0.5 rounded-full">고급</span>
+</div>
+<p class="text-sm text-[#a0a0a8] leading-relaxed mb-4">와이코프의 축적/배분 도해, 엘리엇 파동의 충격파/조정파, 하모닉 패턴의 XABCD 구조. 시장의 거시적 흐름을 읽는 고급 이론들을 다룹니다. 두 이론의 시너지를 활용한 전환점 정밀 식별까지.</p>
+<div class="flex flex-wrap gap-2">
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">와이코프 축적</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">와이코프 배분</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">엘리엇 충격파</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">엘리엇 조정파</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">하모닉</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Season 5 -->
+<div class="season-card rounded-2xl p-6 md:p-8 bg-[#141416] reveal">
+<div class="flex flex-col md:flex-row md:items-start gap-6">
+<div class="flex-shrink-0">
+<div class="w-16 h-16 rounded-2xl gold-gradient flex items-center justify-center">
+<span class="text-2xl font-black text-[#0c0c0e] font-data">S5</span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex flex-wrap items-center gap-3 mb-2">
+<h3 class="text-xl font-bold">실행과 규율</h3>
+<span class="text-xs text-[#6B6B75] font-data">W34 — W41</span>
+<span class="text-xs bg-red-500/10 text-red-400 px-2 py-0.5 rounded-full">고급</span>
+</div>
+<p class="text-sm text-[#a0a0a8] leading-relaxed mb-4">유니콘/실버 불릿 등 고급 진입 모델, 다중 타임프레임 마스터, 이치모쿠 구름, 그리고 가장 중요한 리스크 관리와 트레이딩 심리. 이론은 충분합니다. 이제 실행의 영역입니다.</p>
+<div class="flex flex-wrap gap-2">
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">진입 모델</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">이치모쿠</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">리스크 관리</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">트레이딩 심리</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">MTF 마스터</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Season 6 -->
+<div class="season-card rounded-2xl p-6 md:p-8 bg-[#141416] reveal">
+<div class="flex flex-col md:flex-row md:items-start gap-6">
+<div class="flex-shrink-0">
+<div class="w-16 h-16 rounded-2xl gold-gradient flex items-center justify-center">
+<span class="text-2xl font-black text-[#0c0c0e] font-data">S6</span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex flex-wrap items-center gap-3 mb-2">
+<h3 class="text-xl font-bold">시장별 플레이북</h3>
+<span class="text-xs text-[#6B6B75] font-data">W42 — W49</span>
+<span class="text-xs bg-orange-500/10 text-orange-400 px-2 py-0.5 rounded-full">실전</span>
+</div>
+<p class="text-sm text-[#a0a0a8] leading-relaxed mb-4">추세장, 횡보장, 돌파장, 뉴스 이벤트 — 시장 상황별 전용 전략을 구축합니다. 외환, 암호화폐, 지수/선물 시장 각각의 특성에 맞춘 플레이북을 완성합니다.</p>
+<div class="flex flex-wrap gap-2">
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">추세장</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">횡보장</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">돌파장</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">FX</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">크립토</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">지수/선물</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Season 7 -->
+<div class="season-card rounded-2xl p-6 md:p-8 bg-[#141416] reveal" style="border-color: rgba(184,134,11,0.25);">
+<div class="flex flex-col md:flex-row md:items-start gap-6">
+<div class="flex-shrink-0">
+<div class="w-16 h-16 rounded-2xl gold-gradient gold-glow flex items-center justify-center">
+<span class="text-2xl font-black text-[#0c0c0e] font-data">S7</span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex flex-wrap items-center gap-3 mb-2">
+<h3 class="text-xl font-bold">시스템 구축</h3>
+<span class="text-xs text-[#6B6B75] font-data">W50 — W57</span>
+<span class="text-xs bg-[#B8860B]/20 text-[#B8860B] px-2 py-0.5 rounded-full">마스터</span>
+</div>
+<p class="text-sm text-[#a0a0a8] leading-relaxed mb-4">트레이딩 저널, 백테스트, 기대값 계산, AI/HFT 시대의 적응법, 그리고 실전 통합 분석 시연. 57주의 여정을 마무리하며 나만의 최종 블루프린트를 완성합니다. 이제 누구에게도 의존하지 않습니다.</p>
+<div class="flex flex-wrap gap-2">
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">트레이딩 저널</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">백테스트</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">시스템 디버깅</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">실전 분석</span>
+<span class="text-[10px] text-[#6B6B75] bg-white/5 rounded px-2 py-1">최종 블루프린트</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ===================== BOOK STRUCTURE ===================== -->
+<section class="relative z-[1] py-24 px-6 md:px-12 overflow-hidden">
+<div class="absolute inset-0" style="background: radial-gradient(ellipse at 70% 50%, rgba(184,134,11,0.04) 0%, transparent 50%);"></div>
+<div class="max-w-[1100px] mx-auto relative">
+<div class="reveal">
+<span class="text-xs font-bold tracking-[0.3em] uppercase text-[#B8860B] mb-4 block text-center">Book Structure</span>
+<h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">매 권의 구조</h2>
+<p class="text-center text-[#a0a0a8] mb-16">57권 모두 동일한 구조로 구성됩니다. 일관된 형식이 학습 효율을 높입니다.</p>
+</div>
+
+<div class="grid md:grid-cols-2 gap-8 reveal">
+<div class="space-y-4">
+<div class="flex items-start gap-4 p-4 rounded-xl bg-[#141416] border border-white/5">
+<span class="text-[#B8860B] font-data font-bold text-sm mt-0.5">01</span>
+<div><h4 class="font-bold text-sm mb-1">표지</h4><p class="text-xs text-[#6B6B75]">매 권 고유한 Gemini AI 생성 아트워크 + co'stes 브랜딩</p></div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-xl bg-[#141416] border border-white/5">
+<span class="text-[#B8860B] font-data font-bold text-sm mt-0.5">02</span>
+<div><h4 class="font-bold text-sm mb-1">면책 조항</h4><p class="text-xs text-[#6B6B75]">투자 권유가 아닌 교육 자료임을 명시</p></div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-xl bg-[#141416] border border-white/5">
+<span class="text-[#B8860B] font-data font-bold text-sm mt-0.5">03</span>
+<div><h4 class="font-bold text-sm mb-1">저자의 말</h4><p class="text-xs text-[#6B6B75]">매 권마다 다른 메시지. 코월이 직접 전하는 한마디</p></div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-xl bg-[#141416] border border-white/5">
+<span class="text-[#B8860B] font-data font-bold text-sm mt-0.5">04</span>
+<div><h4 class="font-bold text-sm mb-1">목차</h4><p class="text-xs text-[#6B6B75]">이번 주에 배울 내용을 한눈에</p></div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-start gap-4 p-4 rounded-xl bg-[#141416] border border-white/5">
+<span class="text-[#B8860B] font-data font-bold text-sm mt-0.5">05</span>
+<div><h4 class="font-bold text-sm mb-1">본문 챕터 x N</h4><p class="text-xs text-[#6B6B75]">개념 설명 + 직접 제작한 Matplotlib 다이어그램 + 실전 예시</p></div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-xl bg-[#141416] border border-white/5">
+<span class="text-[#B8860B] font-data font-bold text-sm mt-0.5">06</span>
+<div><h4 class="font-bold text-sm mb-1">WHEN IT FAILS</h4><p class="text-xs text-[#6B6B75]">이번 주 이론이 실패하는 조건과 대응법</p></div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-xl bg-[#141416] border border-white/5">
+<span class="text-[#B8860B] font-data font-bold text-sm mt-0.5">07</span>
+<div><h4 class="font-bold text-sm mb-1">KEY CONCEPT 요약</h4><p class="text-xs text-[#6B6B75]">이번 주 핵심을 한 장으로 정리</p></div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-xl bg-[#141416] border border-white/5">
+<span class="text-[#B8860B] font-data font-bold text-sm mt-0.5">08</span>
+<div><h4 class="font-bold text-sm mb-1">다음 주 예고</h4><p class="text-xs text-[#6B6B75]">다음 권에서 배울 내용 미리보기</p></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ===================== ROADMAP IMAGE ===================== -->
+<section class="relative z-[1] py-24 px-6 md:px-12">
+<div class="max-w-[900px] mx-auto reveal">
+<span class="text-xs font-bold tracking-[0.3em] uppercase text-[#B8860B] mb-4 block text-center">Full Roadmap</span>
+<h2 class="text-3xl md:text-4xl font-extrabold text-center mb-12">57권 전체 커리큘럼</h2>
+<div class="rounded-2xl overflow-hidden border border-[#B8860B]/20 cursor-zoom-in hover:border-[#B8860B]/40 transition-all" onclick="document.getElementById('lightbox-img').src=this.querySelector('img').src; document.getElementById('lightbox').classList.add('active'); document.body.style.overflow='hidden';">
+<img src="assets/images/ebooks/roadmap.png" alt="co'stes 57권 커리큘럼 로드맵" class="w-full" loading="lazy"/>
+</div>
+<p class="text-center text-xs text-[#6B6B75] mt-4">이미지를 클릭하면 크게 볼 수 있습니다</p>
+</div>
+</section>
+
+<!-- ===================== FINAL CTA ===================== -->
+<section class="relative z-[1] py-24 px-6 md:px-12">
+<div class="max-w-[700px] mx-auto text-center reveal">
+<div class="rounded-2xl p-10 md:p-16 border border-[#B8860B]/20" style="background: linear-gradient(135deg, rgba(184,134,11,0.06) 0%, rgba(12,12,14,0.95) 50%, rgba(184,134,11,0.04) 100%);">
+<h2 class="text-2xl md:text-3xl font-extrabold mb-4">57주 후, 당신은 다릅니다</h2>
+<p class="text-[#a0a0a8] mb-6 leading-relaxed">지표에 의존하는 트레이더에서,<br/>시장을 읽는 트레이더로.</p>
+<div class="inline-block bg-[#B8860B]/10 border border-[#B8860B]/20 rounded-full px-5 py-2 mb-4">
+<span class="text-sm text-[#D4A017] font-bold">결제 즉시 57권 한꺼번에 수령</span>
+</div>
+<div class="flex items-baseline justify-center gap-2 mb-2">
+<span class="text-4xl md:text-5xl font-bold font-data">₩570,000</span>
+</div>
+<p class="text-xs text-[#6B6B75] mb-8">권당 ₩10,000 · 기다릴 필요 없이 전 권 일괄 제공</p>
+<a href="sms:01029680020" class="inline-block gold-gradient cta-pulse text-[#0c0c0e] font-bold px-10 py-4 rounded-lg text-lg hover:brightness-110 active:scale-95 transition-all">
+전자책 57권 수령하기
+</a>
+<p class="text-sm text-[#9ca3af] mt-4">버튼을 누른 후 문자 문의 주시면<br/>순차적으로 답변 드리겠습니다.</p>
+</div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer class="relative z-[1] bg-[#0c0c0e] border-t border-white/5 py-12">
+<div class="flex flex-col items-center px-6 md:px-12 gap-6 text-center">
+<a href="/"><img src="/assets/images/logo.png" alt="co'stes 로고" width="80" height="28" class="h-7 w-auto"/></a>
+<div class="flex flex-wrap justify-center gap-8 text-sm tracking-wide">
+<a class="text-gray-500 hover:text-white transition-colors" href="/terms.html">이용약관</a>
+<a class="text-gray-500 hover:text-white transition-colors" href="/privacy.html">개인정보처리방침</a>
+<a class="text-gray-500 hover:text-white transition-colors" href="https://www.instagram.com/cowarrr" target="_blank" rel="noopener noreferrer">@cowarrr</a>
+</div>
+<div class="text-gray-500 text-sm tracking-wide">2026 co's tes. All rights reserved.</div>
+</div>
+<div class="border-t border-white/5 mt-8 pt-8 px-6 md:px-12 text-center">
+<div class="text-[#4a4a50] text-xs leading-relaxed space-y-1">
+<p>상호명: 준걸준 | 대표자명: 이상준</p>
+<p>사업장주소: 서울 영등포구 영신로 38길 15, 3층 3B-11</p>
+<p>사업자 등록번호: 832-16-02629 | 대표 전화: 010-6878-0020</p>
+<p>이메일: support@costes-site.vercel.app</p>
+<p>통신판매업 신고번호: 준비 중 | 호스팅제공자: Vercel Inc.</p>
+<p>개인정보보호책임자: 이상준</p>
+</div>
+<p class="text-[#3a3a3e] text-[10px] leading-relaxed mt-4 max-w-2xl mx-auto">본 서비스는 일반적인 차트 분석 참고자료 및 도구이며, 투자자문에 해당하지 않습니다. 과거 사례는 향후 결과를 보장하지 않으며, 시장 상황에 따라 원금손실이 발생할 수 있습니다.</p>
+</div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) { entry.target.classList.add('visible'); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Lightbox close
+document.getElementById('lightbox').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) {
+    e.currentTarget.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+});
+
+// Ebook Carousel
+let ebookPos = 0;
+function ebookCarousel(dir) {
+  const track = document.getElementById('ebookTrack');
+  const cards = track.querySelectorAll('.ebook-cover-card');
+  const isMobile = window.innerWidth <= 768;
+  const cardWidth = isMobile ? 156 : 204;
+  const visibleCards = Math.floor(track.parentElement.offsetWidth / cardWidth);
+  const maxPos = cards.length - visibleCards;
+  ebookPos = Math.max(0, Math.min(maxPos, ebookPos + dir));
+  track.style.transform = `translateX(-${ebookPos * cardWidth}px)`;
+}
+// Touch swipe
+(function() {
+  const track = document.getElementById('ebookTrack');
+  if (!track) return;
+  let startX = 0, isDragging = false;
+  track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; isDragging = true; }, { passive: true });
+  track.addEventListener('touchend', (e) => {
+    if (!isDragging) return; isDragging = false;
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) ebookCarousel(diff > 0 ? 1 : -1);
+  }, { passive: true });
+})();
+
+// Zoomable images (lightbox)
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+document.querySelectorAll('.zoomable').forEach(img => {
+  img.addEventListener('click', () => {
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+// Count-up animation
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = parseInt(el.dataset.target);
+      const duration = 1500;
+      const start = performance.now();
+      function update(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(eased * target);
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+      countObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.count-up').forEach(el => countObserver.observe(el));
+
+// Floating particles
+(function() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const span = document.createElement('span');
+    span.style.left = Math.random() * 100 + '%';
+    span.style.top = (60 + Math.random() * 40) + '%';
+    span.style.animationDuration = (6 + Math.random() * 10) + 's';
+    span.style.animationDelay = Math.random() * 10 + 's';
+    container.appendChild(span);
+  }
+})();
+</script>
+</body>
+</html>
